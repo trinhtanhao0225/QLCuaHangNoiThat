@@ -43,116 +43,93 @@
 	</div>
 	<!-- Form chính -->
 	<div>
-		
-           <div class="table-responsive">
-    <table class="table datanew">
-      <thead>
-        <tr>
-          <th>Mã sản phẩm</th>
-          <th>Tên sản phẩm</th>
-          <th>Giá</th>
-          <th>Màu sắc</th>
-          <th>Số lượng</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr onclick="toggleDropdown(this)">
-          <td>PT001</td>
-          <td>Macbook Pro</td>
-          <td>1500.00</td>
-          <td>Đỏ</td>
-          <td>15</td>
-        </tr>
-        <tr class="dropdown-row" style="display: none;">
-          <td colspan="5">
-            <select class="form-select">
-              <option value="1">Option 1</option>
-              <option value="2">Option 2</option>
-              <option value="3">Option 3</option>
-            </select>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+		<div class="container mt-4">
+        <h2 class="mb-4">Danh sách hóa đơn</h2>
+
+        <!-- Bảng hóa đơn -->
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Mã hóa đơn</th>
+                    <th>Khách hàng</th>
+                    <th>Ngày lập</th>
+                    <th>Tổng tiền</th>
+                    <th>Chi tiết</th>
+                    <th>Xem thông tin khách hàng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Duyệt qua danh sách hóa đơn -->
+                <c:forEach var="invoice" items="${invoices}">
+                    <tr>
+                        <td>${invoice.id}</td>
+                        <td>${invoice.customerName}</td>
+                        <td>${invoice.date}</td>
+                        <td>${invoice.totalAmount}</td>
+                        <td>
+                            <!-- Nút hiển thị chi tiết -->
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#items-${invoice.id}" aria-expanded="false">
+                                Xem chi tiết
+                            </button>
+                        </td>
+                        <td>
+                            <a href="thongTinKhachHang.jsp?invoiceId=${invoice.id}" class="btn btn-primary btn-sm">
+						        Xem chi tiết
+						    </a>
+                        </td>
+                    </tr>
+
+                    <!-- Chi tiết hàng hóa trong hóa đơn -->
+                    <tr class="collapse" id="items-${invoice.id}">
+                        <td colspan="5">
+                            <div class="table-responsive">
+                                <table class="table table-sm table-bordered">
+                                    <thead class="table-secondary">
+                                        <tr>
+                                            <th>Mã hàng hóa</th>
+                                            <th>Tên hàng hóa</th>
+                                            <th>Số lượng</th>
+                                            <th>Đơn giá</th>
+                                            <th>Thành tiền</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Duyệt qua danh sách hàng hóa trong hóa đơn -->
+                                        <c:forEach var="item" items="${invoice.items}">
+                                            <tr>
+                                                <td>${item.productCode}</td>
+                                                <td>${item.productName}</td>
+                                                <td>${item.quantity}</td>
+                                                <td>${item.unitPrice}</td>
+                                                <td>${item.totalPrice}</td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
   </div>
 </div>
-
-
-Share
-
-
-You said:
-	<div>
-		
-          <div class="table-responsive">
-            <table class="table datanew">
-              <thead>
-              <tr>
-                <th>Mã sản phẩm</th>
-                <th>Tên sản phẩm</th>
-                <th>Giá</th>
-                <th>Màu sắc</th>
-                <th>Số lượng</th>
-              </tr>
-              </thead>
-              <tbody>
-        		<tr onclick="window.location.href='chiTietHangHoa.jsp'">
-              	<td>PT001</td>
-                <td>Macbook pro</td>
-                <td>1500.00</td>
-                <td>Đỏ</td>
-                <td>15</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-	</div>
-</div>  làm sao để tạo 1 combobox khi click vào thì dữ liệu đổ xuống ngay trên mỗi dòng table
-
-<div>
-  <div class="table-responsive">
-    <table class="table datanew">
-      <thead>
-        <tr>
-          <th>Mã sản phẩm</th>
-          <th>Tên sản phẩm</th>
-          <th>Giá</th>
-          <th>Màu sắc</th>
-          <th>Số lượng</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr onclick="toggleDropdown(this)">
-          <td>PT001</td>
-          <td>Macbook Pro</td>
-          <td>1500.00</td>
-          <td>Đỏ</td>
-          <td>15</td>
-        </tr>
-        <tr class="dropdown-row" style="display: none;">
-          <td colspan="5">
-            <select class="form-select">
-              <option value="1">Option 1</option>
-              <option value="2">Option 2</option>
-              <option value="3">Option 3</option>
-            </select>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<script>
-  function toggleDropdown(row) {
-    // Tìm dòng kế tiếp (dropdown-row)
-    const dropdownRow = row.nextElementSibling;
-    if (dropdownRow && dropdownRow.classList.contains('dropdown-row')) {
-      // Toggle hiển thị
-      dropdownRow.style.display = dropdownRow.style.display === 'none' ? 'table-row' : 'none';
+  <script>
+    // Hàm toggle dòng phụ
+    function toggleDropdown(row) {
+      const dropdownRow = row.nextElementSibling; // Lấy dòng kế tiếp
+      if (dropdownRow && dropdownRow.classList.contains('dropdown-row')) {
+        // Ẩn/Hiện dòng dropdown
+        if (dropdownRow.style.display === 'none' || dropdownRow.style.display === '') {
+          dropdownRow.style.display = 'table-row'; // Hiển thị
+        } else {
+          dropdownRow.style.display = 'none'; // Ẩn
+        }
+      }
     }
-  }
-</script>
+  </script>
+
 
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  
 
