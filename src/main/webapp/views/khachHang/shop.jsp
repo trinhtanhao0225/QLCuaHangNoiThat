@@ -28,11 +28,17 @@
             <a href="#"><img src="../../image/user.png" alt="Người dùng" class="icon"></a>
             <a href="#"><img src="../../image/cart.png" alt="Giỏ hàng" class="icon"></a>
         </div>
+        <!-- Thêm button "Đăng nhập" -->
+        <div class="login-button-container">
+            <a href="<%= request.getContextPath() %>/views/nhanVien/login.jsp">
+                <button class="login-button">Đăng nhập</button>
+            </a>
+        </div>
     </header>
 
     <!-- Phần banner -->
     <div class="banner">
-        <img src="../image/banner.jpg" alt="Echoes of the Wild">
+        <img src="../../image/banner.jpg" alt="Echoes of the Wild">
         <div class="banner-content">
             <h1>ECHOES OF THE WILD</h1>
             <p>Highlighting its natural factors and meticulous craftsmanship.</p>
@@ -44,25 +50,25 @@
     <div class="product-container">
         <div class="product">
             <div class="discount-banner">UP TO 50% BLACK FRIDAY</div>
-            <img src="../image/product2.jpg" alt="Chân váy Cerin">
+            <img src="../../image/product2.jpg" alt="Chân váy Cerin">
             <h3>Chân váy Cerin</h3>
             <p>5,000,000đ</p>
         </div>
         <div class="product">
             <div class="discount-banner">UP TO 50% BLACK FRIDAY</div>
-            <img src="../image/product2.jpg" alt="Áo Cerin">
+            <img src="../../image/product2.jpg" alt="Áo Cerin">
             <h3>Áo Cerin</h3>
             <p>7,000,000đ</p>
         </div>
         <div class="product">
             <div class="discount-banner">UP TO 50% BLACK FRIDAY</div>
-            <img src="../image/product2.jpg" alt="Juyp Jolis">
+            <img src="../../image/product2.jpg" alt="Juyp Jolis">
             <h3>Juyp Jolis</h3>
             <p>6,000,000đ</p>
         </div>
         <div class="product">
             <div class="discount-banner">UP TO 50% BLACK FRIDAY</div>
-            <img src="../image/product2.jpg" alt="Áo Vest Jolis">
+            <img src="../../image/product2.jpg" alt="Áo Vest Jolis">
             <h3>Áo Vest Jolis</h3>
             <p>12,000,000đ</p>
         </div>
@@ -98,16 +104,16 @@
         </div>
         <div class="footer-section">
             <h4>Hệ Thống Cửa Hàng</h4>
-            <img src="image/footer-map.jpg" alt="Hệ thống cửa hàng" class="store-map">
+            <img src="../../image/footer-map.jpg" alt="Hệ thống cửa hàng" class="store-map">
             <a href="#" class="map-link">Tìm địa chỉ cửa hàng gần bạn »</a>
         </div>
         <div class="footer-section">
             <h4>Kết Nối Với 4MEN</h4>
             <p>253K người theo dõi</p>
             <div class="social-icons">
-                <a href="#"><img src="image/facebook.png" alt="Facebook"></a>
-                <a href="#"><img src="image/youtube.png" alt="YouTube"></a>
-                <a href="#"><img src="image/instagram.png" alt="Instagram"></a>
+                <a href="#"><img src="../../image/facebook.png" alt="Facebook"></a>
+                <a href="#"><img src="../../image/youtube.png" alt="YouTube"></a>
+                <a href="#"><img src="../../image/instagram.png" alt="Instagram"></a>
             </div>
             <button class="follow-button">Thích 5,8K</button>
         </div>

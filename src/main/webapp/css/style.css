@@ -12,6 +12,26 @@ body {
     margin: 0;
     padding: 0;
 }
+/*Dang nhap*/
+.login-button {
+    background-color: #f57c00;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+.login-button:hover {
+    background-color: #e65100;
+}
+
+.login-button-container {
+    display: inline-block;
+    margin-left: 20px;
+}
 
 /* Header */
 .header {
@@ -219,13 +239,20 @@ body {
 .footer-section .map-link:hover {
     text-decoration: underline;
 }
+.social-icons {
+    display: flex; /* Sắp xếp các phần tử nằm ngang */
+    gap: 10px; /* Khoảng cách giữa các icon */
+}
+
 .social-icons img {
-    width: 24px;
-    height: 24px;
-    display: block; /* Đảm bảo ảnh được hiển thị như một block */
-    transition: none; /* Tắt hiệu ứng không cần thiết */
-    filter: none; /* Loại bỏ filter */
-    opacity: 1; /* Đảm bảo ảnh luôn hiển thị rõ ràng */
+    width: 32px; /* Kích thước ảnh */
+    height: 32px;
+    cursor: pointer; /* Thêm hiệu ứng con trỏ */
+    transition: transform 0.2s ease-in-out; /* Hiệu ứng khi hover */
+}
+
+.social-icons img:hover {
+    transform: scale(1.1); /* Phóng to nhẹ khi hover */
 }
 
 
