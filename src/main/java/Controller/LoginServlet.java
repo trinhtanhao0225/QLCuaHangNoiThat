@@ -16,7 +16,7 @@ import DBConnection.Database;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/LoginServlet")
+@WebServlet("/views/nhanVien/LoginServlet")
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,11 +36,11 @@ public class LoginServlet extends HttpServlet {
                         session.setAttribute("username", username);
 
                         // Chuyển hướng tới trang giao diện bán hàng
-                        response.sendRedirect("shop.jsp");
+                        response.sendRedirect(request.getContextPath() + "/views/nhanVien/chiTietHangHoa.jsp");
                     } else {
                         // Sai thông tin đăng nhập, quay lại trang login
                         request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
-                        request.getRequestDispatcher("login.jsp").forward(request, response);
+                        request.getRequestDispatcher("/views/nhanVien/login.jsp").forward(request, response);
                     }
                 }
             }
@@ -49,3 +49,4 @@ public class LoginServlet extends HttpServlet {
         }
     }
 }
+

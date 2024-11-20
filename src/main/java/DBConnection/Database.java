@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Database {
-	private static final String DB_ServerName = "DESKTOP-Q1R3HVB";
+	private static final String DB_ServerName = "DESKTOP-NGD50VQ";
 	private static final String DB_login = "sa";
-	private static final String DB_password = "Trinhtanhao0225@";
+	private static final String DB_password = "123";
 	private static final String DB_databaseName = "QLCuaHangNoiThat";
 	
 	public static Connection getConnection () {
