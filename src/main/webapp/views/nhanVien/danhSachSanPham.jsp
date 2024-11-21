@@ -44,16 +44,16 @@
 	<div>
 		<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
-    <button class="nav-link active" onclick="location.href='danhSachSanPham.jsp'" type="button" role="tab">Danh sách sản phẩm</button>
+    <button class="nav-link active" onclick="location.href='/QLCuaHangNoiThat/views/nhanVien/danhSachSanPham.jsp'" type="button" role="tab">Danh sách sản phẩm</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link " onclick="location.href='chiTietHangHoa.jsp'" type="button" role="tab">Chi tiết hàng hoá</button>
+    <button class="nav-link " onclick="location.href='/QLCuaHangNoiThat/views/nhanVien/chiTietHangHoa.jsp'" type="button" role="tab">Chi tiết hàng hoá</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link " onclick="location.href='thongTinKhachHang.jsp'" type="button" role="tab">Thông tin khách hàng</button>
+    <button class="nav-link " onclick="location.href='/QLCuaHangNoiThat/views/nhanVien/thongTinKhachHang.jsp'" type="button" role="tab">Thông tin khách hàng</button>
   </li>
       <li class="nav-item" role="presentation">
-    <button class="nav-link" onclick="location.href='danhSachHoaDon.jsp'" type="button" role="tab">Danh sách hoá đơn</button>
+    <button class="nav-link" onclick="location.href='/QLCuaHangNoiThat/views/nhanVien/danhSachHoaDon.jsp'" type="button" role="tab">Danh sách hoá đơn</button>
   </li>
 </ul>
 	</div>
@@ -78,6 +78,7 @@
                         <td>${dnt.gia}</td>
                         <td>${dnt.mauSac}</td>
                         <td>${dnt.soLuong}</td>
+                        
                     </tr>
                 </c:forEach> 
             </tbody>

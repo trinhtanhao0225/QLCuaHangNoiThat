@@ -31,20 +31,19 @@ public class LoadKhoHang extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy session
         HttpSession session = request.getSession();
 
-        // Kiểm tra xem danh sách đã có trong session chưa
-        List<DoNoiThat> listDNT = (List<DoNoiThat>) session.getAttribute("listDNT");
+        // Lấy lại danh sách sản phẩm mới từ database sau khi thêm sản phẩm
+        List<DoNoiThat> listDNT = DoNoiThatDAO.getALLDoNoiThat();
 
-        if (listDNT == null) {
-            listDNT = DoNoiThatDAO.getALLDoNoiThat();
+        // Cập nhật lại session với danh sách mới
+        session.setAttribute("listDNT", listDNT);
 
-            session.setAttribute("listDNT", listDNT);
-        }
-
+        // Đặt thuộc tính cho request và chuyển hướng
         request.setAttribute("listDNT", listDNT);
+        request.setAttribute("message", "Thêm sản phẩm thành công!");
 
+        // Chuyển hướng đến trang danh sách sản phẩm
         request.getRequestDispatcher("/views/nhanVien/danhSachSanPham.jsp").forward(request, response);
     }
 
