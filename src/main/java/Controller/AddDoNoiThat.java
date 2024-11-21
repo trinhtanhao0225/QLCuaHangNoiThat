@@ -3,6 +3,7 @@ package Controller;
 import java.io.IOException;
 import java.util.List;
 
+import Model.DanhMuc;
 import Model.DoNoiThat;
 import Model.DoNoiThatDAO;
 import jakarta.servlet.RequestDispatcher;
@@ -37,10 +38,11 @@ public class AddDoNoiThat extends HttpServlet {
         int soLuong = Integer.parseInt(request.getParameter("soLuong"));
         String moTa = request.getParameter("moTa");
         String hinhAnh = request.getParameter("imageFileName");
- 
-
+        int maDanhMuc = Integer.parseInt(request.getParameter("maDanhMuc"));
+        
+        
         // Tạo đối tượng DoNoiThat và gọi DAO để thêm vào cơ sở dữ liệu
-        DoNoiThat dnt = new DoNoiThat(id, ten, gia, mauSac, soLuong, moTa, hinhAnh);
+        DoNoiThat dnt = new DoNoiThat(id, ten, gia, mauSac, soLuong, moTa, hinhAnh,new DanhMuc(maDanhMuc));
         DoNoiThatDAO.themCapNhatDoNoiThat(dnt);
         
      // Đặt thông báo và cập nhật danh sách

@@ -3,12 +3,11 @@ package Model;
 import java.sql.Date;
 import java.time.DateTimeException;
 
-public class GioHang {
+public class HoaDon {
 	private int id;
-	private int idDoNoiThat;
-	private int soLuong;
-	private int gia;
+	private float tongTien;
 	private String cccd;
+	private String ten;
 	private Date thoiGianDatHang;
 	public int getId() {
 		return id;
@@ -16,23 +15,11 @@ public class GioHang {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getIdDoNoiThat() {
-		return idDoNoiThat;
+	public float getTongTien() {
+		return tongTien;
 	}
-	public void setIdDoNoiThat(int idDoNoiThat) {
-		this.idDoNoiThat = idDoNoiThat;
-	}
-	public int getSoLuong() {
-		return soLuong;
-	}
-	public void setSoLuong(int soLuong) {
-		this.soLuong = soLuong;
-	}
-	public int getGia() {
-		return gia;
-	}
-	public void setGia(int gia) {
-		this.gia = gia;
+	public void setTongTien(float tongTien) {
+		this.tongTien = tongTien;
 	}
 	public String getCccd() {
 		return cccd;
@@ -40,24 +27,30 @@ public class GioHang {
 	public void setCccd(String cccd) {
 		this.cccd = cccd;
 	}
+	public String getTen() {
+		return ten;
+	}
+	public void setTen(String ten) {
+		this.ten = ten;
+	}
 	public Date getThoiGianDatHang() {
 		return thoiGianDatHang;
 	}
 	public void setThoiGianDatHang(Date thoiGianDatHang) {
 		this.thoiGianDatHang = thoiGianDatHang;
 	}
-	public GioHang(int id, int idDoNoiThat, int soLuong, int gia, String cccd, Date thoiGianDatHang) {
+	public HoaDon(int id, float tongTien, String cccd, String ten, Date thoiGianDatHang) {
 		super();
 		this.id = id;
-		this.idDoNoiThat = idDoNoiThat;
-		this.soLuong = soLuong;
-		this.gia = gia;
+		this.tongTien = tongTien;
 		this.cccd = cccd;
+		this.ten = ten;
 		this.thoiGianDatHang = thoiGianDatHang;
 	}
-	public GioHang() {
+	public HoaDon() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	
 }

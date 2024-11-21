@@ -41,7 +41,6 @@ public class LoadKhoHang extends HttpServlet {
 
         // Đặt thuộc tính cho request và chuyển hướng
         request.setAttribute("listDNT", listDNT);
-        request.setAttribute("message", "Thêm sản phẩm thành công!");
 
         // Chuyển hướng đến trang danh sách sản phẩm
         request.getRequestDispatcher("/views/nhanVien/danhSachSanPham.jsp").forward(request, response);

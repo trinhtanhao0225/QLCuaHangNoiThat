@@ -23,6 +23,7 @@
     String soLuong = request.getParameter("soLuong");
     String moTa = request.getParameter("moTa");
     String hinhAnh = request.getParameter("hinhAnh");
+    String idDanhMuc =request.getParameter("idDanhMuc");
 %>
 
 <div class="container">
@@ -95,7 +96,17 @@
                                         <input type="text" name="soLuong" class="form-control" value="<%= soLuong %>">
                                     </div>
                                 </div>
-
+								<div class="col-lg-3 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <label>Danh mục</label>
+                                        <select name="maDanhMuc" class="form-control" id="maDanhMuc">
+							            <option value="1" <%= idDanhMuc == "1" ? "selected" : "" %>>Ghế</option>
+							            <option value="2" <%= idDanhMuc == "2" ? "selected" : "" %>>Bàn</option>
+							            <option value="3" <%= idDanhMuc == "3" ? "selected" : "" %>>Tủ</option>
+							            <option value="4" <%= idDanhMuc == "4" ? "selected" : "" %>>Giường</option>
+							        </select>
+                                    </div>
+                                </div>
                                 <!-- Cột 6: Mô tả -->
                                 <div class="col-lg-12">
                                     <div class="form-group">

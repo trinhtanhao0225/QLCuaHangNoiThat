@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" 
+	uri="jakarta.tags.core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +20,8 @@
 }
 
 .table {
-  width: 80%; /* Điều chỉnh độ rộng của bảng */
+  width: 100%; /* Điều chỉnh độ rộng của bảng */
+ 
 }
 th {
     cursor: pointer;
@@ -44,91 +47,101 @@ th.sorted-desc::after {
 	<div>
 		<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
-    <button class="nav-link " onclick="location.href='danhSachSanPham.jsp'" type="button" role="tab">Danh sách sản phẩm</button>
+    <button class="nav-link " onclick="location.href='/QLCuaHangNoiThat/views/nhanVien/danhSachSanPham.jsp'" type="button" role="tab">Danh sách sản phẩm</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link  " onclick="location.href='chiTietHangHoa.jsp'" type="button" role="tab">Chi tiết hàng hoá</button>
+    <button class="nav-link  " onclick="location.href='/QLCuaHangNoiThat/views/nhanVien/chiTietHangHoa.jsp'" type="button" role="tab">Chi tiết hàng hoá</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link " onclick="location.href='thongTinKhachHang.jsp'" type="button" role="tab">Thông tin khách hàng</button>
+    <button class="nav-link " onclick="location.href='/QLCuaHangNoiThat/views/nhanVien/thongTinKhachHang.jsp'" type="button" role="tab">Thông tin khách hàng</button>
   </li>
     <li class="nav-item" role="presentation">
-    <button class="nav-link active" onclick="location.href='danhSachHoaDon.jsp'" type="button" role="tab">Danh sách hoá đơn</button>
+    <button class="nav-link active" onclick="location.href='/QLCuaHangNoiThat/views/nhanVien/danhSachHoaDon.jsp'" type="button" role="tab">Danh sách hoá đơn</button>
   </li>
 </ul>
 	</div>
 	<!-- Form chính -->
 	<div>
 		<div class="container mt-4">
-        <h2 class="mb-4">Danh sách hóa đơn</h2>
+    <h2 class="text-center mb-4">Danh sách hóa đơn</h2>
 
-        <!-- Bảng hóa đơn -->
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                   <tr>
-				        <th style="cursor: pointer;" onclick="sortTable(0)">Mã hóa đơn</th>
-				        <th style="cursor: pointer;" onclick="sortTable(1)">Khách hàng</th>
-				        <th style="cursor: pointer;" onclick="sortTable(2)">Ngày lập</th>
-				        <th style="cursor: pointer;" onclick="sortTable(3)">Tổng tiền</th>
-				        <th>Chi tiết</th>
-				        <th>Xem thông tin khách hàng</th>
-			    	</tr>
-            </thead>
-            <tbody>
-                <!-- Duyệt qua danh sách hóa đơn -->
-                <c:forEach var="invoice" items="${invoices}">
-                    <tr>
-                        <td>${invoice.id}</td>
-                        <td>${invoice.customerName}</td>
-                        <td>${invoice.date}</td>
-                        <td>${invoice.totalAmount}</td>
-                        <td>
-                            <!-- Nút hiển thị chi tiết -->
-                            <button class="btn btn-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#items-${invoice.id}" aria-expanded="false">
-                                Xem chi tiết
-                            </button>
-                        </td>
-                        <td>
-                            <a href="thongTinKhachHang.jsp?invoiceId=${invoice.id}" class="btn btn-primary btn-sm">
-						        Xem chi tiết
-						    </a>
-                        </td>
-                    </tr>
+    <div class="card">
+        <div class="card-body">
+            <!-- Bảng hóa đơn -->
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead class="table-dark text-center">
+                        <tr>
+                            <th>Mã hóa đơn</th>
+                            <th>Tổng tiền</th>
+                            <th>Căn cước công dân</th>
+                            <th>Họ tên khách hàng</th>
+                            <th>Ngày đặt</th>
+                            <th>Chi tiết hoá đơn</th>
+                            <th>Xem thông tin khách hàng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="hoaDon" items="${listHoaDon}">
+                            <tr>
+                                <td>${hoaDon.id}</td>
+                                <td>${hoaDon.tongTien}</td>
+                                <td>${hoaDon.cccd}</td>
+                                <td>${hoaDon.ten}</td>
+                                <td>${hoaDon.thoiGianDatHang}</td>
+                                <td class="text-center">
+                                    <!-- Nút hiển thị chi tiết -->
+                                    <button class="btn btn-info btn-sm" data-bs-toggle="collapse" data-bs-target="#items-${hoaDon.id}">
+                                        <i class="bi bi-eye"></i> Xem
+                                    </button>
+                                </td>
+                                <td class="text-center">
+                                    <a href="thongTinKhachHang.jsp?invoiceId=${hoaDon.cccd}" class="btn btn-success btn-sm">
+                                        <i class="bi bi-person"></i> Xem
+                                    </a>
+                                </td>
+                            </tr>
 
-                    <!-- Chi tiết hàng hóa trong hóa đơn -->
-                    <tr class="collapse" id="items-${invoice.id}">
-                        <td colspan="6">
-                            <div class="table-responsive">
-                                <table class="table table-sm table-bordered">
-                                    <thead class="table-secondary">
-                                        <tr>
-                                            <th>Mã hàng hóa</th>
-                                            <th>Tên hàng hóa</th>
-                                            <th>Số lượng</th>
-                                            <th>Đơn giá</th>
-                                            <th>Thành tiền</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Duyệt qua danh sách hàng hóa trong hóa đơn -->
-                                        <c:forEach var="item" items="${invoice.items}">
-                                            <tr>
-                                                <td>${item.productCode}</td>
-                                                <td>${item.productName}</td>
-                                                <td>${item.quantity}</td>
-                                                <td>${item.unitPrice}</td>
-                                                <td>${item.totalPrice}</td>
-                                            </tr>
-                                        </c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+                    <tr class="collapse bg-light text-center" id="items-${hoaDon.id}">
+		    <td colspan="6">
+		        <div class="card">
+		            <div class="card-header text-center bg-secondary text-white">
+		                <strong>Chi tiết hóa đơn: ${hoaDon.id}</strong>
+		            </div>
+		            <div class="card-body">
+		                <div class="table-responsive">
+		                    <table class="table table-sm table-bordered align-middle">
+		                        <thead class="table-dark">
+		                            <tr>
+		                                <th class="text-center">ID đồ nội thất</th>
+		                                <th class="text-center">Số lượng</th>
+		                                <th class="text-center">Giá</th>
+		                            </tr>
+		                        </thead>
+		                        <tbody>
+		                            <c:forEach var="item" items="${listItems}">
+		                                <tr>
+		                                    <td>${item.idDoNoiThat}</td>
+		                                    <td>${item.soLuong}</td>
+		                                    <td>${item.gia}</td>
+		                                </tr>
+		                            </c:forEach>
+		                        </tbody>
+		                    </table>
+		                </div>
+		            </div>
+		        </div>
+		    </td>
+		</tr>
+                    
+                        </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+</div>
+		
   </div>
 </div>
   <script>
