@@ -73,5 +73,16 @@ public class DoNoiThat {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	public DoNoiThat(int id, String ten, float gia, String mauSac, int soLuong, String moTa, String hinhAnh) {
+		super();
+		this.id = id;
+		this.ten = ten;
+		this.gia = gia;
+		this.mauSac = mauSac;
+		this.soLuong = soLuong;
+		this.moTa = moTa;
+		this.hinhAnh = hinhAnh;
+	}
+
 	
 }

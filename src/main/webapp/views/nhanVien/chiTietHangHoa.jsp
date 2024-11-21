@@ -18,7 +18,17 @@
 </style>
 </head>
 <body>
+<%
+    // Lấy các tham số từ URL
+    String id = request.getParameter("id");
+    String ten = request.getParameter("ten");
+    String gia = request.getParameter("gia");
+    String mauSac = request.getParameter("mauSac");
+    String soLuong = request.getParameter("soLuong");
+    String moTa=request.getParameter("moTa");
+    String hinhAnh=request.getParameter("hinhAnh");
 
+%>
 <div class="container">
 	<!-- Dashboard -->
 	<div>
@@ -54,7 +64,7 @@
             <div class="col-lg-3 col-sm-6 col-12">
                 <div class="form-group">
                     <label>Mã sản phẩm</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" value="<%= id %>">
                 </div>
             </div>
 
@@ -62,7 +72,7 @@
             <div class="col-lg-3 col-sm-6 col-12">
                 <div class="form-group">
                     <label>Tên sản phẩm</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" value="<%= ten %>">
                 </div>
             </div>
 
@@ -70,7 +80,7 @@
             <div class="col-lg-3 col-sm-6 col-12">
                 <div class="form-group">
                     <label>Giá</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" value="<%= gia %>">
                 </div>
             </div>
 
@@ -78,7 +88,7 @@
             <div class="col-lg-3 col-sm-6 col-12">
                 <div class="form-group">
                     <label>Màu sắc</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" value="<%= mauSac %>">
                 </div>
             </div>
             
@@ -86,13 +96,14 @@
             <div class="col-lg-3 col-sm-6 col-12">
                 <div class="form-group">
                     <label>Số lượng</label>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" value="<%= soLuong %>">
                 </div>
             </div>
 			<div class="col-lg-12">
                             <div class="form-group">
                                 <label>Mô tả</label>
-                                <textarea class="form-control"></textarea>
+								<textarea class="form-control"><%= moTa %></textarea>
+								
                             </div>
                         </div>
             <!-- Cột 6: Ảnh sản phẩm -->

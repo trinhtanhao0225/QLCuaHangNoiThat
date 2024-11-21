@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" 
+	uri="jakarta.tags.core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,12 +15,24 @@
   margin-left: 10px; /* Thêm một chút margin bên trái */
 }
 
-.table-responsive {
-  margin: 0 auto; /* Căn giữa bảng */
+.table {
+    width: 100%; /* Bảng chiếm toàn bộ chiều ngang */
+    border-collapse: collapse; /* Loại bỏ khoảng cách giữa các ô */
 }
 
-.table {
-  width: 80%; /* Điều chỉnh độ rộng của bảng */
+.table th, .table td {
+    border: 1px solid #ddd; /* Đường viền cho bảng */
+    text-align: center; /* Căn giữa nội dung */
+    padding: 8px; /* Khoảng cách nội dung và đường viền */
+}
+
+.table th {
+    background-color: #f2f2f2; /* Màu nền cho tiêu đề */
+    font-weight: bold; /* Chữ đậm cho tiêu đề */
+}
+
+.table-responsive {
+    overflow-x: auto; /* Đảm bảo bảng cuộn được nếu quá rộng */
 }
 </style>
 </head>
@@ -44,31 +58,33 @@
 </ul>
 	</div>
 	<!-- Form chính -->
-	<div>
-		
-          <div class="table-responsive">
-            <table class="table datanew">
-              <thead>
-              <tr>
-                <th>Mã sản phẩm</th>
-                <th>Tên sản phẩm</th>
-                <th>Giá</th>
-                <th>Màu sắc</th>
-                <th>Số lượng</th>
-              </tr>
-              </thead>
-              <tbody>
-        		<tr onclick="window.location.href='chiTietHangHoa.jsp'">
-              	<td>PT001</td>
-                <td>Macbook pro</td>
-                <td>1500.00</td>
-                <td>Đỏ</td>
-                <td>15</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-	</div>
+<div>
+    <div class="table-responsive">
+        <table class="table datanew">
+            <thead>
+                <tr>
+                    <th>Mã sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Màu sắc</th>
+                    <th>Số lượng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="dnt" items="${listDNT}">
+                    <tr class="text-center" onclick="window.location.href='${pageContext.request.contextPath}/views/nhanVien/chiTietHangHoa.jsp?id=' + encodeURIComponent('${dnt.id}') + '&ten=' + encodeURIComponent('${dnt.ten}') + '&gia=' + encodeURIComponent('${dnt.gia}') + '&mauSac=' + encodeURIComponent('${dnt.mauSac}') + '&soLuong=' + encodeURIComponent('${dnt.soLuong}') + '&moTa=' + encodeURIComponent('${dnt.moTa}') + '&hinhAnh=' + encodeURIComponent('${dnt.hinhAnh}')">		
+                        <td>${dnt.id}</td>
+                        <td>${dnt.ten}</td>
+                        <td>${dnt.gia}</td>
+                        <td>${dnt.mauSac}</td>
+                        <td>${dnt.soLuong}</td>
+                    </tr>
+                </c:forEach> 
+            </tbody>
+        </table>
+    </div>
+</div>
+
 </div>
 
 

@@ -20,6 +20,22 @@
 .table {
   width: 80%; /* Điều chỉnh độ rộng của bảng */
 }
+th {
+    cursor: pointer;
+}
+
+th:hover {
+    background-color: #e2e2e2;
+}
+
+th.sorted-asc::after {
+    content: " ↑"; /* Hiển thị mũi tên tăng dần */
+}
+
+th.sorted-desc::after {
+    content: " ↓"; /* Hiển thị mũi tên giảm dần */
+}
+
 </style>
 </head>
 <body>
@@ -28,15 +44,15 @@
 	<div>
 		<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
   <li class="nav-item" role="presentation">
-    <button class="nav-link" onclick="location.href='danhSachSanPham.jsp'" type="button" role="tab">Danh sách sản phẩm</button>
+    <button class="nav-link " onclick="location.href='danhSachSanPham.jsp'" type="button" role="tab">Danh sách sản phẩm</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link " onclick="location.href='chiTietHangHoa.jsp'" type="button" role="tab">Chi tiết hàng hoá</button>
+    <button class="nav-link  " onclick="location.href='chiTietHangHoa.jsp'" type="button" role="tab">Chi tiết hàng hoá</button>
   </li>
   <li class="nav-item" role="presentation">
     <button class="nav-link " onclick="location.href='thongTinKhachHang.jsp'" type="button" role="tab">Thông tin khách hàng</button>
   </li>
-  <li class="nav-item" role="presentation">
+    <li class="nav-item" role="presentation">
     <button class="nav-link active" onclick="location.href='danhSachHoaDon.jsp'" type="button" role="tab">Danh sách hoá đơn</button>
   </li>
 </ul>
@@ -49,14 +65,14 @@
         <!-- Bảng hóa đơn -->
         <table class="table table-bordered">
             <thead class="table-dark">
-                <tr>
-                    <th>Mã hóa đơn</th>
-                    <th>Khách hàng</th>
-                    <th>Ngày lập</th>
-                    <th>Tổng tiền</th>
-                    <th>Chi tiết</th>
-                    <th>Xem thông tin khách hàng</th>
-                </tr>
+                   <tr>
+				        <th style="cursor: pointer;" onclick="sortTable(0)">Mã hóa đơn</th>
+				        <th style="cursor: pointer;" onclick="sortTable(1)">Khách hàng</th>
+				        <th style="cursor: pointer;" onclick="sortTable(2)">Ngày lập</th>
+				        <th style="cursor: pointer;" onclick="sortTable(3)">Tổng tiền</th>
+				        <th>Chi tiết</th>
+				        <th>Xem thông tin khách hàng</th>
+			    	</tr>
             </thead>
             <tbody>
                 <!-- Duyệt qua danh sách hóa đơn -->
@@ -81,7 +97,7 @@
 
                     <!-- Chi tiết hàng hóa trong hóa đơn -->
                     <tr class="collapse" id="items-${invoice.id}">
-                        <td colspan="5">
+                        <td colspan="6">
                             <div class="table-responsive">
                                 <table class="table table-sm table-bordered">
                                     <thead class="table-secondary">
@@ -130,7 +146,47 @@
     }
   </script>
 
+<script >
+function sortTable(n) {
+    var table = document.querySelector("table");
+    var rows = Array.from(table.rows).slice(1); // Lấy tất cả các hàng, bỏ qua tiêu đề
+    var isAscending = table.getAttribute('data-sort-order') === 'asc';
+    
+    // Kiểm tra kiểu dữ liệu của cột (Ngày hoặc Số)
+    var compareFunction;
+    if (n === 2) { // Nếu là cột "Ngày lập"
+        compareFunction = function(rowA, rowB) {
+            var dateA = new Date(rowA.cells[n].innerText);
+            var dateB = new Date(rowB.cells[n].innerText);
+            return isAscending ? dateA - dateB : dateB - dateA;
+        };
+    } else if (n === 3) { // Nếu là cột "Tổng tiền"
+        compareFunction = function(rowA, rowB) {
+            var amountA = parseFloat(rowA.cells[n].innerText.replace(/[^0-9.-]+/g, ""));
+            var amountB = parseFloat(rowB.cells[n].innerText.replace(/[^0-9.-]+/g, ""));
+            return isAscending ? amountA - amountB : amountB - amountA;
+        };
+    } else { // Các cột còn lại (Chuỗi văn bản)
+        compareFunction = function(rowA, rowB) {
+            var textA = rowA.cells[n].innerText.toLowerCase();
+            var textB = rowB.cells[n].innerText.toLowerCase();
+            return isAscending ? textA.localeCompare(textB) : textB.localeCompare(textA);
+        };
+    }
 
+    // Sắp xếp các hàng
+    rows.sort(compareFunction);
+
+    // Đảo ngược thứ tự nếu đang ở chế độ giảm dần
+    rows.forEach(function(row) {
+        table.appendChild(row);
+    });
+
+    // Cập nhật trạng thái sắp xếp
+    table.setAttribute('data-sort-order', isAscending ? 'desc' : 'asc');
+}
+
+</script>
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  
 
 </body>
