@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +39,7 @@
 
     <!-- Phần banner -->
     <div class="banner">
-        <img src="../../image/banner.jpg" alt="Echoes of the Wild">
+        <img src="../../image/baner.jpg" alt="Echoes of the Wild">
         <div class="banner-content">
             <h1>ECHOES OF THE WILD</h1>
             <p>Highlighting its natural factors and meticulous craftsmanship.</p>
@@ -47,31 +48,19 @@
     </div>
 
     <!-- Phần sản phẩm -->
-    <div class="product-container">
-        <div class="product">
-            <div class="discount-banner">UP TO 50% BLACK FRIDAY</div>
-            <img src="../../image/product2.jpg" alt="Chân váy Cerin">
-            <h3>Chân váy Cerin</h3>
-            <p>5,000,000đ</p>
-        </div>
-        <div class="product">
-            <div class="discount-banner">UP TO 50% BLACK FRIDAY</div>
-            <img src="../../image/product2.jpg" alt="Áo Cerin">
-            <h3>Áo Cerin</h3>
-            <p>7,000,000đ</p>
-        </div>
-        <div class="product">
-            <div class="discount-banner">UP TO 50% BLACK FRIDAY</div>
-            <img src="../../image/product2.jpg" alt="Juyp Jolis">
-            <h3>Juyp Jolis</h3>
-            <p>6,000,000đ</p>
-        </div>
-        <div class="product">
-            <div class="discount-banner">UP TO 50% BLACK FRIDAY</div>
-            <img src="../../image/product2.jpg" alt="Áo Vest Jolis">
-            <h3>Áo Vest Jolis</h3>
-            <p>12,000,000đ</p>
-        </div>
+	    <div class="product-container">
+	    <c:forEach var="product" items="${listdonoithat}">
+            <div class="product">
+                <img src="../../${product.hinhAnh}" alt="${product.ten}">
+                <h3>${product.ten}</h3>
+                <p>${product.gia}đ</p>
+                <p><b>Màu sắc:</b> ${product.mauSac}</p>
+                <p><b>Số lượng:</b> ${product.soLuong}</p>
+                <p>${product.moTa}</p>
+                <a href="product-details?id=${product.id}"><button>Xem chi tiết</button></a>
+                <button class="add-to-cart" onclick="addToCart()">Thêm vào giỏ hàng</button>
+            </div>
+        </c:forEach>
     </div>
     
     <!-- footer -->
