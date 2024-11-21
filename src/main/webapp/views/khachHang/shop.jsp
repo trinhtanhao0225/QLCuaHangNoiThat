@@ -48,8 +48,12 @@
     </div>
 
     <!-- Phần sản phẩm -->
-	    <div class="product-container">
-	    <c:forEach var="product" items="${listdonoithat}">
+	  <div class="product-container">
+    <c:if test="${not empty errorMessage}">
+        <p>${errorMessage}</p>
+    </c:if>
+    <c:if test="${not empty listdonoithat}">
+        <c:forEach var="product" items="${listdonoithat}">
             <div class="product">
                 <img src="../../${product.hinhAnh}" alt="${product.ten}">
                 <h3>${product.ten}</h3>
@@ -61,7 +65,9 @@
                 <button class="add-to-cart" onclick="addToCart()">Thêm vào giỏ hàng</button>
             </div>
         </c:forEach>
-    </div>
+    </c:if>
+</div>
+
     
     <!-- footer -->
     

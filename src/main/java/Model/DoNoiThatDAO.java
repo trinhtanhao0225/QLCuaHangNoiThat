@@ -25,6 +25,7 @@ public class DoNoiThatDAO {
 	    }
 	    return list;
 	}
+	
 	public static void themCapNhatDoNoiThat(DoNoiThat dnt) {
 	    String sqlCheck = "SELECT COUNT(*) FROM DoNoiThat WHERE id = ?";
 	    String sqlInsert = "INSERT INTO DoNoiThat (ten, gia, mauSac, soLuong, moTa, hinhAnh) VALUES (?, ?, ?, ?, ?, ?)";
@@ -64,5 +65,5 @@ public class DoNoiThatDAO {
 	    }
 	}
 
-
+	
 }
