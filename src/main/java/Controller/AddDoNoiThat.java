@@ -3,6 +3,8 @@ package Controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.taglibs.standard.tag.common.fmt.RequestEncodingSupport;
+
 import Model.DanhMuc;
 import Model.DoNoiThat;
 import Model.DoNoiThatDAO;
@@ -31,7 +33,11 @@ public class AddDoNoiThat extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lấy thông tin từ form
-        int id = Integer.parseInt(request.getParameter("id"));
+    	int id = Integer.MAX_VALUE;
+    	String getID=request.getParameter("id");
+    	if(getID != null && !getID.equals("null")) {
+    		id=Integer.parseInt(getID);
+    	}
         String ten = request.getParameter("ten");
         Float gia = Float.parseFloat(request.getParameter("gia"));
         String mauSac = request.getParameter("mauSac");

@@ -40,6 +40,12 @@ public class ChiTietHoaDon {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	public ChiTietHoaDon(int idDoNoiThat, int soLuong, float gia) {
+		super();
+		this.idDoNoiThat = idDoNoiThat;
+		this.soLuong = soLuong;
+		this.gia = gia;
+	}
 	
 	
 }
