@@ -29,18 +29,22 @@
 <div class="container">
     <div>
 		<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-  <li class="nav-item" role="presentation">
-    <button class="nav-link " onclick="location.href='/QLCuaHangNoiThat/views/nhanVien/danhSachSanPham.jsp'" type="button" role="tab">Danh sách sản phẩm</button>
-  </li>
+		<li class="nav-item" role="presentation">
+	        <form action="<%= request.getContextPath() %>/LoadKhoHang" method="get" style="display: inline;">
+	            <button class="nav-link" type="submit" role="tab">Danh sách sản phẩm</button>
+	        </form>
+	    </li>
   <li class="nav-item" role="presentation">
     <button class="nav-link active" onclick="location.href='/QLCuaHangNoiThat/views/nhanVien/chiTietHangHoa.jsp'" type="button" role="tab">Chi tiết hàng hoá</button>
   </li>
   <li class="nav-item" role="presentation">
     <button class="nav-link " onclick="location.href='/QLCuaHangNoiThat/views/nhanVien/thongTinKhachHang.jsp'" type="button" role="tab">Thông tin khách hàng</button>
   </li>
-      <li class="nav-item" role="presentation">
-    <button class="nav-link " onclick="location.href='/QLCuaHangNoiThat/views/nhanVien/danhSachHoaDon.jsp'" type="button" role="tab">Danh sách hoá đơn</button>
-  </li>
+   	<li class="nav-item" role="presentation">
+        <form action="<%= request.getContextPath() %>/LoadLSMuaHang" method="get" style="display: inline;">
+            <button class="nav-link " type="submit" role="tab">Danh sách hoá đơn</button>
+        </form>
+    </li>
 </ul>
     </div>
 
@@ -135,6 +139,7 @@
                                 <!-- Cột 7: Nút Gửi và Hủy -->
                                 <div class="col-lg-12">
                                     <input type="hidden" name="imageFileName" id="imageFileName" value="<%= hinhAnh %>">
+
                                     <input type="hidden" name="action" value="addProduct">
                                     <input type="submit" value="Gửi" class="btn btn-submit me-2">
                                     <a href="productlist.jsp" class="btn btn-cancel">Hủy</a>
@@ -149,27 +154,29 @@
 </div>
 
 <script>
-// Preview ảnh khi chọn file
 function previewImage(event) {
     const file = event.target.files[0];
+    if (!file) {
+        alert('Vui lòng chọn một file ảnh!');
+        return;
+    }
+
     const imageUrl = URL.createObjectURL(file);
     const previewImg = document.getElementById('preview-img');
     previewImg.src = imageUrl; // Gắn URL vào thuộc tính src
     previewImg.style.display = 'block'; // Hiển thị ảnh
+
+    // Lưu tên file vào hidden input
+    document.getElementById('imageFileName').value = file.name;
 }
 
-// Lấy tên file ảnh khi submit
-function getFileNameFromSrc() {
-    const img = document.getElementById('preview-img');
-    const src = img.src;  // Lấy URL của ảnh
-    const fileName = src.substring(src.lastIndexOf('/') + 1);  // Lấy tên file từ đường dẫn
-    return fileName;
-}
-
-// Thêm tên file vào hidden input khi submit
-document.querySelector('form').addEventListener('submit', function() {
-    const fileName = getFileNameFromSrc();
-    document.getElementById('imageFileName').value = fileName;
+document.querySelector('form').addEventListener('submit', function(e) {
+    const fileName = document.getElementById('imageFileName').value;
+    console.log('Tên file gửi đi:', fileName); // Kiểm tra giá trị trong console
+    if (!fileName) {
+        e.preventDefault();
+        alert('Vui lòng chọn ảnh trước khi gửi!');
+    }
 });
 </script>
 

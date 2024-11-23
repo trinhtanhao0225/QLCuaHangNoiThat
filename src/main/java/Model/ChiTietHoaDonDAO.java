@@ -16,7 +16,7 @@ public class ChiTietHoaDonDAO {
 	        ResultSet rs = ps.executeQuery();
 
 	        while (rs.next()) {
-	            ChiTietHoaDon chiTietHoaDon=new ChiTietHoaDon(rs.getInt("id"),rs.getInt("idDoNoiThat"),rs.getInt("soLuong"),rs.getFloat("gia"));
+	            ChiTietHoaDon chiTietHoaDon=new ChiTietHoaDon(rs.getInt("idHoaDon"),rs.getInt("idDoNoiThat"),rs.getInt("soLuong"),rs.getFloat("gia"));
 	            list.add(chiTietHoaDon);
 	        }
 	    } catch (Exception ex) {
