@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thời trang</title>
     <link rel="stylesheet" href="/QLCuaHangNoiThat/css/style.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
     <script>
         function toggleSearchBox(event) {
             event.preventDefault();
@@ -90,7 +92,7 @@
 
     <!-- Banner -->
     <div class="banner">
-        <img src="/QLCuaHangNoiThat/image/baner.jpg" alt="Echoes of the Wild">
+        <img src="/QLCuaHangNoiThat/image/banner.png" alt="Echoes of the Wild">
         <div class="banner-content">
             <h1>ECHOES OF THE WILD</h1>
             <p>Highlighting its natural factors and meticulous craftsmanship.</p>
@@ -106,13 +108,17 @@
         <c:if test="${not empty listDNT}">
             <c:forEach var="product" items="${listDNT}">
     <div class="product">
-        <img src="<c:url value='/image/${product.hinhAnh}' />" alt="${product.ten}">
-        <h3>${product.ten}</h3>
-        <p>${product.gia}đ</p>
-        <p><b>Màu sắc:</b> ${product.mauSac}</p>
-        <p><b>Số lượng:</b> ${product.soLuong}</p>
+        <img 
+    src="<c:url value='/image/${product.hinhAnh}' />" 
+    alt="${product.ten}" 
+    style="width: 380px; height: 400px;">
+        <h3><b>${product.ten}</b></h3>
+        <div style="display:flex">
+        	<span><p>Giá : ${product.gia}đ   | </p></span>
+        	<span><p>Màu sắc : ${product.mauSac}</p></span>
+        </div>
         <p>${product.moTa}</p>
-        <a href="chiTietSanPham?id=${product.id}"><button>Xem chi tiết</button></a>
+        <a href="chiTietSanPham?id=${product.id}"><button type="button" class="btn btn-dark">Xem Chi Tiết</button></a>
         <c:if test="${product.soLuong > 0}">
             <form action="addToCart" method="post">
                 <input type="hidden" name="id" value="${product.id}">
@@ -173,5 +179,7 @@
             <button class="follow-button">Thích 5,8K</button>
         </div>
     </footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  
+
 </body>
 </html>
