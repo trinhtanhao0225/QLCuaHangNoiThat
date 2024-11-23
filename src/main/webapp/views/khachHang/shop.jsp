@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
@@ -8,12 +7,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thời trang</title>
-    <!-- Liên kết đến file CSS -->
     <link rel="stylesheet" href="/QLCuaHangNoiThat/css/style.css">
-
+    <script>
+        function toggleSearchBox(event) {
+            event.preventDefault();
+            const searchBox = document.getElementById("search-box");
+            if (searchBox.style.display === "none" || searchBox.style.display === "") {
+                searchBox.style.display = "flex";
+            } else {
+                searchBox.style.display = "none";
+            }
+        }
+    </script>
+    <style>
+        .search-container {
+            position: relative;
+            display: inline-block;
+        }
+        #search-box {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            display: none;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 5px;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #search-box input {
+            border: none;
+            padding: 5px;
+            width: 200px;
+        }
+        #search-box button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Phần header -->
+    <!-- Header -->
     <header class="header">
         <div class="logo">CHANCOS</div>
         <nav>
@@ -25,17 +61,26 @@
             <a href="#">V.I.P</a>
         </nav>
         <div class="icons">
-            <a href="#"><img src="/QLCuaHangNoiThat/image/search.png" alt="Tìm kiếm" class="icon"></a>
-            <a href="#"><img src="/QLCuaHangNoiThat/image/user.png" alt="Người dùng" class="icon"></a>
-           <a href="/QLCuaHangNoiThat/views/khachHang/viewCart.jsp">
-			    <img src="/QLCuaHangNoiThat/image/cart.png" alt="Giỏ hàng" class="icon">
-			    <span class="cart-badge">
-			        ${sessionScope.cartSize != null ? sessionScope.cartSize : 0}
-			    </span>
-			</a>
-
+            <!-- Tìm kiếm -->
+            <div class="search-container">
+                <a href="#" class="search-icon" onclick="toggleSearchBox(event)">
+                    <img src="/QLCuaHangNoiThat/image/search.png" alt="Tìm kiếm" class="icon">
+                </a>
+                <form id="search-box" action="searchProduct" method="get">
+                    <input type="text" name="query" placeholder="Tìm kiếm sản phẩm...">
+                    <button type="submit">🔍</button>
+                </form>
+            </div>
+            <!-- Người dùng -->
+            <!-- Giỏ hàng -->
+            <a href="/QLCuaHangNoiThat/views/khachHang/viewCart.jsp">
+                <img src="/QLCuaHangNoiThat/image/cart.png" alt="Giỏ hàng" class="icon">
+                <span class="cart-badge">
+                    ${sessionScope.cartSize != null ? sessionScope.cartSize : 0}
+                </span>
+            </a>
         </div>
-        <!-- Thêm button "Đăng nhập" -->
+        <!-- Button Đăng nhập -->
         <div class="login-button-container">
             <a href="<%= request.getContextPath() %>/views/nhanVien/login.jsp">
                 <button class="login-button">Đăng nhập</button>
@@ -43,7 +88,7 @@
         </div>
     </header>
 
-    <!-- Phần banner -->
+    <!-- Banner -->
     <div class="banner">
         <img src="/QLCuaHangNoiThat/image/baner.jpg" alt="Echoes of the Wild">
         <div class="banner-content">
@@ -53,13 +98,13 @@
         </div>
     </div>
 
-    <!-- Phần sản phẩm -->
-	  <div class="product-container">
-    <c:if test="${not empty errorMessage}">
-        <p>${errorMessage}</p>
-    </c:if>
-    <c:if test="${not empty listDNT}">
-     <c:forEach var="product" items="${listDNT}">
+    <!-- Sản phẩm -->
+    <div class="product-container">
+        <c:if test="${not empty errorMessage}">
+            <p>${errorMessage}</p>
+        </c:if>
+        <c:if test="${not empty listDNT}">
+            <c:forEach var="product" items="${listDNT}">
     <div class="product">
         <img src="<c:url value='/image/${product.hinhAnh}' />" alt="${product.ten}">
         <h3>${product.ten}</h3>
@@ -68,24 +113,25 @@
         <p><b>Số lượng:</b> ${product.soLuong}</p>
         <p>${product.moTa}</p>
         <a href="chiTietSanPham?id=${product.id}"><button>Xem chi tiết</button></a>
-       <form action="addToCart" method="post">
-		    <input type="hidden" name="id" value="${product.id}">
-		    <input type="hidden" name="ten" value="${product.ten}">
-		    <input type="hidden" name="hinhAnh" value="${product.hinhAnh}">
-		    <input type="hidden" name="gia" value="${product.gia}">
-		    <button type="submit" class="add-to-cart">Thêm vào giỏ hàng</button>
-		</form>
-
+        <c:if test="${product.soLuong > 0}">
+            <form action="addToCart" method="post">
+                <input type="hidden" name="id" value="${product.id}">
+                <input type="hidden" name="ten" value="${product.ten}">
+                <input type="hidden" name="hinhAnh" value="${product.hinhAnh}">
+                <input type="hidden" name="gia" value="${product.gia}">
+                <button type="submit" class="add-to-cart">Thêm vào giỏ hàng</button>
+            </form>
+        </c:if>
+        <c:if test="${product.soLuong == 0}">
+            <button disabled class="out-of-stock">Hết hàng</button>
+        </c:if>
     </div>
 </c:forEach>
 
-    </c:if>
-</div>
+        </c:if>
+    </div>
 
-    
-    <!-- footer -->
-    
-        <!-- Phần footer -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-section">
             <h4>4MEN</h4>
@@ -127,7 +173,5 @@
             <button class="follow-button">Thích 5,8K</button>
         </div>
     </footer>
-    <!-- End footer -->
-    
 </body>
 </html>
