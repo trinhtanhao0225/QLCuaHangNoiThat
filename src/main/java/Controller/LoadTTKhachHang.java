@@ -5,27 +5,22 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
 import java.io.IOException;
-import java.util.List;
 
-import Model.DoNoiThat;
-import Model.DoNoiThatDAO;
-import Model.HoaDon;
-import Model.HoaDonDAO;
+import Model.KhachHang;
+import Model.KhachHangDAO;
 
 /**
- * Servlet implementation class LoadLSMuaHang
+ * Servlet implementation class LoadTTKhachHang
  */
-@WebServlet("/LoadLSMuaHang")
-public class LoadLSMuaHang extends HttpServlet {
+@WebServlet("/LoadTTKhachHang")
+public class LoadTTKhachHang extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoadLSMuaHang() {
+    public LoadTTKhachHang() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,18 +31,12 @@ public class LoadLSMuaHang extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-        HttpSession session = request.getSession();
-
-        // Lấy lại danh sách sản phẩm mới từ database sau khi thêm sản phẩm
-        List<HoaDon> listHoaDon = HoaDonDAO.getALLHoaDon();
-        // Cập nhật lại session với danh sách mới
-        session.setAttribute("listHoaDon", listHoaDon);
-
-        // Đặt thuộc tính cho request và chuyển hướng
-        request.setAttribute("listHoaDon", listHoaDon);
-
-        // Chuyển hướng đến trang danh sách sản phẩm
-        request.getRequestDispatcher("/views/nhanVien/danhSachHoaDon.jsp").forward(request, response);
+		
+		String cccd = request.getParameter("cccd");
+		KhachHang khachHang = KhachHangDAO.getKhachHangByCCCD(cccd);
+		
+        request.setAttribute("khachHang", khachHang);
+        request.getRequestDispatcher("/views/nhanVien/thongTinKhachHang.jsp").forward(request, response);
 	}
 
 	/**
