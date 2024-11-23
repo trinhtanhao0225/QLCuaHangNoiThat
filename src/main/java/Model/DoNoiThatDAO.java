@@ -3,6 +3,7 @@ package Model;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,60 @@ public class DoNoiThatDAO {
 	    }
 	    return list;
 	}
-	
+	public static List<DoNoiThat> getALLDoNoiThat1(){
+		List<DoNoiThat> list =new ArrayList<DoNoiThat>();
+		String sqlString="SELECT * from DoNoiThat";
+	    try {
+	        PreparedStatement ps = conn.prepareStatement(sqlString);
+	        ResultSet rs = ps.executeQuery();
+
+	        while (rs.next()) {
+	            DoNoiThat dnt = new DoNoiThat(rs.getInt("id"),rs.getString("ten"),rs.getFloat("gia"),rs.getString("mauSac"),rs.getInt("soLuong"),rs.getString("hinhAnh"));
+	            list.add(dnt);
+	            
+	        }
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	    }
+	    return list;
+	}
+	/*
+	public DoNoiThat getProductById(int id) {
+	    String query = "SELECT * FROM DoNoiThat WHERE id = ?";
+	    try (Connection conn = DBConnection.Database.getConnection();
+	         PreparedStatement statement = conn.prepareStatement(query)) {
+	        statement.setInt(1, id);
+	        ResultSet resultSet = statement.executeQuery();
+	        if (resultSet.next()) {
+	            return new DoNoiThat(
+	                resultSet.getInt("id"),
+	                resultSet.getString("ten"),
+	                resultSet.getFloat("gia"),
+	                resultSet.getString("mauSac"),	               	            
+	                resultSet.getString("hinhAnh")
+	            );
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}*/
+	public static boolean reduceQuantity(int productId, int quantity) {
+	    String sql = "UPDATE DoNoiThat SET soLuong = soLuong - ? WHERE id = ? AND soLuong >= ?";
+	    try (Connection conn = DBConnection.Database.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        stmt.setInt(1, quantity);
+	        stmt.setInt(2, productId);
+	        stmt.setInt(3, quantity); // Chỉ giảm nếu số lượng trong kho đủ
+	        int rowsUpdated = stmt.executeUpdate();
+	        return rowsUpdated > 0; // Trả về true nếu cập nhật thành công
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false; // Trả về false nếu có lỗi hoặc không đủ số lượng
+	}
+
+
 	public static void themCapNhatDoNoiThat(DoNoiThat dnt) {
 	    String sqlCheck = "SELECT COUNT(*) FROM DoNoiThat WHERE id = ?";
 	    String sqlInsert = "INSERT INTO DoNoiThat (ten, gia, mauSac, soLuong, moTa, hinhAnh) VALUES (?, ?, ?, ?, ?, ?)";

@@ -57,18 +57,7 @@ public class DoNoiThat {
 	public void setTrangThai(String trangThai) {
 		this.trangThai = trangThai;
 	}
-	public DoNoiThat(int id, String ten, float gia, String mauSac, int soLuong, String moTa, String hinhAnh,
-			String trangThai) {
-		super();
-		this.id = id;
-		this.ten = ten;
-		this.gia = gia;
-		this.mauSac = mauSac;
-		this.soLuong = soLuong;
-		this.moTa = moTa;
-		this.hinhAnh = hinhAnh;
-		this.trangThai = trangThai;
-	}
+	
 	public DoNoiThat() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -83,6 +72,14 @@ public class DoNoiThat {
 		this.moTa = moTa;
 		this.hinhAnh = hinhAnh;
 	}
-
+	public DoNoiThat(int id, String ten, float gia, String mauSac,int soLuong, String hinhAnh) {
+		super();
+		this.id = id;
+		this.ten = ten;
+		this.gia = gia;
+		this.mauSac = mauSac;
+		this.soLuong = soLuong;
+		this.hinhAnh = hinhAnh;
+	}
 	
 }

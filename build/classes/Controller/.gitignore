@@ -3,3 +3,6 @@
 /LoadKhoHang.class
 /LoadLSMuaHang.class
 /LoadSanPham.class
+/AddDoNoiThat.class
+/add_to_cart.class
+/AddToCartServlet.class

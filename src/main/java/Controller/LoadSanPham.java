@@ -5,6 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -21,19 +23,21 @@ public class LoadSanPham extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Gọi DAO để lấy danh sách sản phẩm
-        DoNoiThatDAO donoithatDAO = new DoNoiThatDAO();
-        List<DoNoiThat> donoithat = donoithatDAO.getALLDoNoiThat();
+    	HttpSession session = request.getSession();
+        //DoNoiThatDAO donoithatDAO = new DoNoiThatDAO();
+        //List<DoNoiThat> donoithat = donoithatDAO.getALLDoNoiThat();
 
-        // Kiểm tra nếu danh sách rỗng hoặc null
-        if (donoithat == null || donoithat.isEmpty()) {
-            request.setAttribute("errorMessage", "Không có sản phẩm nào được tìm thấy.");
-        } else {
-            request.setAttribute("listdonoithat", donoithat);
-        }
+        List<DoNoiThat> listDNT = DoNoiThatDAO.getALLDoNoiThat1();
+
+        // Cập nhật lại session với danh sách mới
+        session.setAttribute("listDNT", listDNT);
+
+        // Đặt thuộc tính cho request và chuyển hướng
+        request.setAttribute("listDNT", listDNT);
+        request.setAttribute("message", "Thêm sản phẩm thành công!");
 
         // Chuyển hướng sang JSP
-        String path = request.getContextPath() + "/views/khachHang/shop.jsp";
-        request.getRequestDispatcher(path).forward(request, response);
+        request.getRequestDispatcher("/views/khachHang/shop.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
