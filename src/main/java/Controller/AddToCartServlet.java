@@ -6,28 +6,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import Model.CartItem;
-import Model.DoNoiThat;
 import Model.DoNoiThatDAO;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
-/**
- * Servlet implementation class add_to_cart
- */
 @WebServlet("/addToCart")
 public class AddToCartServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lấy thông tin sản phẩm từ request
         int id = Integer.parseInt(request.getParameter("id"));
@@ -43,17 +33,26 @@ public class AddToCartServlet extends HttpServlet {
             cartList = new ArrayList<>();
         }
 
+        // Kiểm tra số lượng sản phẩm trong kho trước khi thêm
+        boolean isStockAvailable = DoNoiThatDAO.reduceQuantity(id, 1);
+        if (!isStockAvailable) {
+            // Không đủ số lượng, hiển thị thông báo lỗi
+            session.setAttribute("errorMessage", "Sản phẩm \"" + ten + "\" đã hết hàng.");
+            response.sendRedirect("LoadSanPham"); // Quay lại trang sản phẩm
+            return;
+        }
+
         // Kiểm tra nếu sản phẩm đã tồn tại trong giỏ hàng
         boolean productExists = false;
         for (CartItem item : cartList) {
             if (item.getId() == id) {
-                item.setSoLuong(item.getSoLuong() + 1); // Tăng số lượng
+                item.setSoLuong(item.getSoLuong() + 1); // Tăng số lượng trong giỏ hàng
                 productExists = true;
                 break;
             }
         }
 
-        // Nếu sản phẩm chưa tồn tại, thêm mới
+        // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
         if (!productExists) {
             cartList.add(new CartItem(id, ten, hinhAnh, gia, 1));
         }
@@ -61,22 +60,10 @@ public class AddToCartServlet extends HttpServlet {
         // Cập nhật giỏ hàng trong session
         session.setAttribute("cart", cartList);
 
-        // Cập nhật badge (số lượng sản phẩm)
+        // Cập nhật badge (số lượng sản phẩm trong giỏ hàng)
         session.setAttribute("cartSize", cartList.size());
 
-        // Giảm số lượng sản phẩm trong kho
-        boolean isStockUpdated = DoNoiThatDAO.reduceQuantity(id, 1); // Giảm số lượng kho xuống 1
-        if (!isStockUpdated) {
-            // Nếu không đủ số lượng, hiển thị thông báo lỗi
-            session.setAttribute("errorMessage", "Không đủ số lượng sản phẩm trong kho.");
-            response.sendRedirect("LoadSanPham"); // Điều hướng lại trang sản phẩm
-            return;
-        }
-
-        // Chuyển hướng về trang sản phẩm hoặc giỏ hàng
-        response.sendRedirect("LoadSanPham"); // Hoặc điều hướng sang trang giỏ hàng
+        // Chuyển hướng về trang sản phẩm
+        response.sendRedirect("LoadSanPham");
     }
 }
-
-
-

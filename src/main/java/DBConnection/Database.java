@@ -6,7 +6,9 @@ import java.sql.SQLException;
 
 public class Database {
 
+
 	private static final String DB_ServerName = "LAPTOP-CJ7KL72A";
+
 	private static final String DB_login = "sa";
 	private static final String DB_password = "123";
 	private static final String DB_databaseName = "QLMuaBanNoiThat";

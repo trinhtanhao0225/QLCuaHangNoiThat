@@ -7,11 +7,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thời trang</title>
-    <!-- Liên kết đến file CSS -->
     <link rel="stylesheet" href="/QLCuaHangNoiThat/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script>
+        function toggleSearchBox(event) {
+            event.preventDefault();
+            const searchBox = document.getElementById("search-box");
+            if (searchBox.style.display === "none" || searchBox.style.display === "") {
+                searchBox.style.display = "flex";
+            } else {
+                searchBox.style.display = "none";
+            }
+        }
+    </script>
+    <style>
+        .search-container {
+            position: relative;
+            display: inline-block;
+        }
+        #search-box {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            display: none;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 5px;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #search-box input {
+            border: none;
+            padding: 5px;
+            width: 200px;
+        }
+        #search-box button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Phần header -->
+    <!-- Header -->
     <header class="header">
         <div class="logo">CHANCOS</div>
         <nav>
@@ -23,8 +63,17 @@
             <a href="#">V.I.P</a>
         </nav>
         <div class="icons">
-            <a href="#"><img src="/QLCuaHangNoiThat/image/search.png" alt="Tìm kiếm" class="icon"></a>
-            <a href="#"><img src="/QLCuaHangNoiThat/image/user.png" alt="Người dùng" class="icon"></a>
+            <!-- Tìm kiếm -->
+            <div class="search-container">
+                <a href="#" class="search-icon" onclick="toggleSearchBox(event)">
+                    <img src="/QLCuaHangNoiThat/image/search.png" alt="Tìm kiếm" class="icon">
+                </a>
+                <form id="search-box" action="searchProduct" method="get">
+                    <input type="text" name="query" placeholder="Tìm kiếm sản phẩm...">
+                    <button type="submit">🔍</button>
+                </form>
+            </div>
+            <!-- Giỏ hàng -->
             <a href="/QLCuaHangNoiThat/views/khachHang/viewCart.jsp">
                 <img src="/QLCuaHangNoiThat/image/cart.png" alt="Giỏ hàng" class="icon">
                 <span class="cart-badge">
@@ -32,6 +81,7 @@
                 </span>
             </a>
         </div>
+        <!-- Button Đăng nhập -->
         <div class="login-button-container">
             <a href="<%= request.getContextPath() %>/views/nhanVien/login.jsp">
                 <button class="login-button">Đăng nhập</button>
@@ -39,9 +89,9 @@
         </div>
     </header>
 
-    <!-- Phần banner -->
+    <!-- Banner -->
     <div class="banner">
-        <img src="/QLCuaHangNoiThat/image/baner.jpg" alt="Echoes of the Wild">
+        <img src="/QLCuaHangNoiThat/image/banner.png" alt="Echoes of the Wild">
         <div class="banner-content">
             <h1>ECHOES OF THE WILD</h1>
             <p>Highlighting its natural factors and meticulous craftsmanship.</p>
@@ -49,36 +99,42 @@
         </div>
     </div>
 
-    <!-- Phần sản phẩm -->
+    <!-- Sản phẩm -->
     <div class="product-container">
         <c:if test="${not empty errorMessage}">
             <div class="error-message">${errorMessage}</div>
         </c:if>
-
         <c:if test="${not empty listDNT}">
             <c:forEach var="product" items="${listDNT}">
                 <div class="product">
-                    <img src="<c:url value='/image/${product.hinhAnh}' />" alt="${product.ten}">
-                    <h3>${product.ten}</h3>
-                    <p>${product.gia}đ</p>
-                    <p><b>Màu sắc:</b> ${product.mauSac}</p>
-                    <p><b>Số lượng:</b> ${product.soLuong}</p>
+                    <img src="<c:url value='/image/${product.hinhAnh}'/>" alt="${product.ten}" style="width: 380px; height: 400px;">
+                    <h3><b>${product.ten}</b></h3>
+                    <div style="display:flex">
+                        <span><p>Giá : ${product.gia}đ   | </p></span>
+                        <span><p>Màu sắc : ${product.mauSac}</p></span>
+                    </div>
                     <p>${product.moTa}</p>
-                    <a href="chiTietSanPham?id=${product.id}"><button>Xem chi tiết</button></a>
-
-                    <form action="addToCart" method="post">
-                        <input type="hidden" name="id" value="${product.id}">
-                        <input type="hidden" name="ten" value="${product.ten}">
-                        <input type="hidden" name="hinhAnh" value="${product.hinhAnh}">
-                        <input type="hidden" name="gia" value="${product.gia}">
-                        <button type="submit" class="add-to-cart">Thêm vào giỏ hàng</button>
-                    </form>
+                    <a href="chiTietSanPham?id=${product.id}">
+                        <button type="button" class="btn btn-dark">Xem Chi Tiết</button>
+                    </a>
+                    <c:if test="${product.soLuong > 0}">
+                        <form action="<%= request.getContextPath() %>/addToCart" method="post">
+                            <input type="hidden" name="id" value="${product.id}">
+                            <input type="hidden" name="ten" value="${product.ten}">
+                            <input type="hidden" name="hinhAnh" value="${product.hinhAnh}">
+                            <input type="hidden" name="gia" value="${product.gia}">
+                            <button type="submit" class="add-to-cart">Thêm vào giỏ hàng</button>
+                        </form>
+                    </c:if>
+                    <c:if test="${product.soLuong == 0}">
+                        <button disabled class="out-of-stock">Hết hàng</button>
+                    </c:if>
                 </div>
             </c:forEach>
         </c:if>
     </div>
 
-    <!-- Phần footer -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-section">
             <h4>4MEN</h4>
@@ -120,5 +176,8 @@
             <button class="follow-button">Thích 5,8K</button>
         </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

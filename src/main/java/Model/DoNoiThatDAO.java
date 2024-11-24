@@ -49,41 +49,57 @@ public class DoNoiThatDAO {
 	    }
 	    return list;
 	}
-	/*
-	public DoNoiThat getProductById(int id) {
-	    String query = "SELECT * FROM DoNoiThat WHERE id = ?";
-	    try (Connection conn = DBConnection.Database.getConnection();
-	         PreparedStatement statement = conn.prepareStatement(query)) {
-	        statement.setInt(1, id);
-	        ResultSet resultSet = statement.executeQuery();
-	        if (resultSet.next()) {
-	            return new DoNoiThat(
-	                resultSet.getInt("id"),
-	                resultSet.getString("ten"),
-	                resultSet.getFloat("gia"),
-	                resultSet.getString("mauSac"),	               	            
-	                resultSet.getString("hinhAnh")
-	            );
+	public static List<DoNoiThat> searchProductsByName(String name) {
+	    List<DoNoiThat> products = new ArrayList<>();
+	    try (Connection conn = DBConnection.Database.getConnection()) {
+	        String sql = "SELECT * FROM DoNoiThat WHERE ten LIKE ?";
+	        PreparedStatement stmt = conn.prepareStatement(sql);
+	        stmt.setString(1, "%" + name + "%");
+	        ResultSet resultSet = stmt.executeQuery();
+	        while (resultSet.next()) {
+	            products.add(new DoNoiThat(
+	            		resultSet.getInt("id"),
+	 	                resultSet.getString("ten"),
+	 	                resultSet.getFloat("gia"),
+	 	                resultSet.getString("mauSac"),
+	 	                resultSet.getInt("soLuong"), 	               
+	 	                resultSet.getString("hinhAnh")
+	 	              
+	            ));
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
-	    return null;
-	}*/
-	public static boolean reduceQuantity(int productId, int quantity) {
-	    String sql = "UPDATE DoNoiThat SET soLuong = soLuong - ? WHERE id = ? AND soLuong >= ?";
-	    try (Connection conn = DBConnection.Database.getConnection();
-	         PreparedStatement stmt = conn.prepareStatement(sql)) {
-	        stmt.setInt(1, quantity);
-	        stmt.setInt(2, productId);
-	        stmt.setInt(3, quantity); // Chỉ giảm nếu số lượng trong kho đủ
-	        int rowsUpdated = stmt.executeUpdate();
-	        return rowsUpdated > 0; // Trả về true nếu cập nhật thành công
+	    return products;
+	}
+	public static boolean reduceQuantity(int id, int quantityToReduce) {
+	    String checkQuery = "SELECT soLuong FROM DoNoiThat WHERE id = ?";
+	    String updateQuery = "UPDATE DoNoiThat SET soLuong = soLuong - ? WHERE id = ? AND soLuong >= ?";
+	    try (Connection conn = DBConnection.Database.getConnection()) {
+	        // Kiểm tra số lượng hiện tại
+	        try (PreparedStatement checkStmt = conn.prepareStatement(checkQuery)) {
+	            checkStmt.setInt(1, id);
+	            ResultSet rs = checkStmt.executeQuery();
+	            if (rs.next() && rs.getInt("soLuong") < quantityToReduce) {
+	                return false; // Không đủ số lượng
+	            }
+	        }
+	        
+	        // Thực hiện giảm số lượng
+	        try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
+	            updateStmt.setInt(1, quantityToReduce);
+	            updateStmt.setInt(2, id);
+	            updateStmt.setInt(3, quantityToReduce);
+	            int rowsAffected = updateStmt.executeUpdate();
+	            return rowsAffected > 0;
+	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
-	    return false; // Trả về false nếu có lỗi hoặc không đủ số lượng
+	    return false;
 	}
+
+
 
 
 
