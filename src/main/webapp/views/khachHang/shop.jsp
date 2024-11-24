@@ -1,15 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thời trang</title>
     <!-- Liên kết đến file CSS -->
-    <link rel="stylesheet" href="../../css/style.css">
-
+    <link rel="stylesheet" href="/QLCuaHangNoiThat/css/style.css">
 </head>
 <body>
     <!-- Phần header -->
@@ -24,11 +23,15 @@
             <a href="#">V.I.P</a>
         </nav>
         <div class="icons">
-            <a href="#"><img src="../../image/search.png" alt="Tìm kiếm" class="icon"></a>
-            <a href="#"><img src="../../image/user.png" alt="Người dùng" class="icon"></a>
-            <a href="#"><img src="../../image/cart.png" alt="Giỏ hàng" class="icon"></a>
+            <a href="#"><img src="/QLCuaHangNoiThat/image/search.png" alt="Tìm kiếm" class="icon"></a>
+            <a href="#"><img src="/QLCuaHangNoiThat/image/user.png" alt="Người dùng" class="icon"></a>
+            <a href="/QLCuaHangNoiThat/views/khachHang/viewCart.jsp">
+                <img src="/QLCuaHangNoiThat/image/cart.png" alt="Giỏ hàng" class="icon">
+                <span class="cart-badge">
+                    ${sessionScope.cartSize != null ? sessionScope.cartSize : 0}
+                </span>
+            </a>
         </div>
-        <!-- Thêm button "Đăng nhập" -->
         <div class="login-button-container">
             <a href="<%= request.getContextPath() %>/views/nhanVien/login.jsp">
                 <button class="login-button">Đăng nhập</button>
@@ -38,7 +41,7 @@
 
     <!-- Phần banner -->
     <div class="banner">
-        <img src="../../image/banner.jpg" alt="Echoes of the Wild">
+        <img src="/QLCuaHangNoiThat/image/baner.jpg" alt="Echoes of the Wild">
         <div class="banner-content">
             <h1>ECHOES OF THE WILD</h1>
             <p>Highlighting its natural factors and meticulous craftsmanship.</p>
@@ -48,35 +51,34 @@
 
     <!-- Phần sản phẩm -->
     <div class="product-container">
-        <div class="product">
-            <div class="discount-banner">UP TO 50% BLACK FRIDAY</div>
-            <img src="../../image/product2.jpg" alt="Chân váy Cerin">
-            <h3>Chân váy Cerin</h3>
-            <p>5,000,000đ</p>
-        </div>
-        <div class="product">
-            <div class="discount-banner">UP TO 50% BLACK FRIDAY</div>
-            <img src="../../image/product2.jpg" alt="Áo Cerin">
-            <h3>Áo Cerin</h3>
-            <p>7,000,000đ</p>
-        </div>
-        <div class="product">
-            <div class="discount-banner">UP TO 50% BLACK FRIDAY</div>
-            <img src="../../image/product2.jpg" alt="Juyp Jolis">
-            <h3>Juyp Jolis</h3>
-            <p>6,000,000đ</p>
-        </div>
-        <div class="product">
-            <div class="discount-banner">UP TO 50% BLACK FRIDAY</div>
-            <img src="../../image/product2.jpg" alt="Áo Vest Jolis">
-            <h3>Áo Vest Jolis</h3>
-            <p>12,000,000đ</p>
-        </div>
+        <c:if test="${not empty errorMessage}">
+            <div class="error-message">${errorMessage}</div>
+        </c:if>
+
+        <c:if test="${not empty listDNT}">
+            <c:forEach var="product" items="${listDNT}">
+                <div class="product">
+                    <img src="<c:url value='/image/${product.hinhAnh}' />" alt="${product.ten}">
+                    <h3>${product.ten}</h3>
+                    <p>${product.gia}đ</p>
+                    <p><b>Màu sắc:</b> ${product.mauSac}</p>
+                    <p><b>Số lượng:</b> ${product.soLuong}</p>
+                    <p>${product.moTa}</p>
+                    <a href="chiTietSanPham?id=${product.id}"><button>Xem chi tiết</button></a>
+
+                    <form action="addToCart" method="post">
+                        <input type="hidden" name="id" value="${product.id}">
+                        <input type="hidden" name="ten" value="${product.ten}">
+                        <input type="hidden" name="hinhAnh" value="${product.hinhAnh}">
+                        <input type="hidden" name="gia" value="${product.gia}">
+                        <button type="submit" class="add-to-cart">Thêm vào giỏ hàng</button>
+                    </form>
+                </div>
+            </c:forEach>
+        </c:if>
     </div>
-    
-    <!-- footer -->
-    
-        <!-- Phần footer -->
+
+    <!-- Phần footer -->
     <footer class="footer">
         <div class="footer-section">
             <h4>4MEN</h4>
@@ -104,21 +106,19 @@
         </div>
         <div class="footer-section">
             <h4>Hệ Thống Cửa Hàng</h4>
-            <img src="../../image/footer-map.jpg" alt="Hệ thống cửa hàng" class="store-map">
+            <img src="/QLCuaHangNoiThat/image/footer-map.jpg" alt="Hệ thống cửa hàng" class="store-map">
             <a href="#" class="map-link">Tìm địa chỉ cửa hàng gần bạn »</a>
         </div>
         <div class="footer-section">
             <h4>Kết Nối Với 4MEN</h4>
             <p>253K người theo dõi</p>
             <div class="social-icons">
-                <a href="#"><img src="../../image/facebook.png" alt="Facebook"></a>
-                <a href="#"><img src="../../image/youtube.png" alt="YouTube"></a>
-                <a href="#"><img src="../../image/instagram.png" alt="Instagram"></a>
+                <a href="#"><img src="/QLCuaHangNoiThat/image/facebook.png" alt="Facebook"></a>
+                <a href="#"><img src="/QLCuaHangNoiThat/image/youtube.png" alt="YouTube"></a>
+                <a href="#"><img src="/QLCuaHangNoiThat/image/instagram.png" alt="Instagram"></a>
             </div>
             <button class="follow-button">Thích 5,8K</button>
         </div>
     </footer>
-    <!-- End footer -->
-    
 </body>
 </html>

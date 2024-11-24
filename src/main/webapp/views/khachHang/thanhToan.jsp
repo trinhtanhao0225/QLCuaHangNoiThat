@@ -1,142 +1,117 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checkout - Furniture Store</title>
-<style>
-body {
-	font-family: Arial, sans-serif;
-}
-
-.cart-container {
-	display: flex;
-	margin: 20px;
-}
-
-.cart-items, .cart-summary {
-	padding: 20px;
-	border: 1px solid #ccc;
-}
-
-.cart-items {
-	flex: 3;
-}
-
-.cart-summary {
-	flex: 1;
-	margin-left: 20px;
-}
-
-.cart-items table {
-	width: 100%;
-	border-collapse: collapse;
-}
-
-.cart-items table th, .cart-items table td {
-	text-align: left;
-	padding: 10px;
-	border-bottom: 1px solid #ddd;
-}
-
-.cart-items table th {
-	background-color: #f4f4f4;
-}
-
-.cart-summary h3 {
-	margin-bottom: 20px;
-}
-
-.cart-summary .total, .cart-summary .subtotal {
-	font-size: 18px;
-	margin-bottom: 10px;
-}
-
-.cart-summary button {
-	width: 100%;
-	padding: 10px;
-	background-color: black;
-	color: white;
-	border: none;
-	cursor: pointer;
-}
-
-.cart-summary button:hover {
-	background-color: #444;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary - Furniture Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1, h2, h3 {
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        img {
+            max-width: 50px;
+            height: auto;
+        }
+        .total {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #6c4b3d;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #5a3d32;
+        }
+    </style>
 </head>
 <body>
-	<div class="cart-container">
-		<!-- Cart Items Section -->
-		<div class="cart-items">
-			<h2>Shopping Cart</h2>
-			<table>
-				<thead>
-					<tr>
-						<th>Product</th>
-						<th>Price</th>
-						<th>Quantity</th>
-						<th>Subtotal</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td><img src="images/dining_table.jpg"
-							alt="Wooden Dining Table" style="width: 50px; height: 50px;">
-							Wooden Dining Table</td>
-						<td>5,999,000 đ</td>
-						<td>
-							<form action="updateCart" method="post">
-								<input type="hidden" name="productId" value="1" /> <input
-									type="number" name="quantity" value="1" min="1" />
-								<button type="submit">Update</button>
-							</form>
-						</td>
-						<td>5,999,000 đ</td>
-					</tr>
-					<tr>
-						<td><img src="images/sofa_set.jpg" alt="Modern Sofa Set"
-							style="width: 50px; height: 50px;"> Modern Sofa Set</td>
-						<td>8,499,000 đ</td>
-						<td>
-							<form action="updateCart" method="post">
-								<input type="hidden" name="productId" value="2" /> <input
-									type="number" name="quantity" value="1" min="1" />
-								<button type="submit">Update</button>
-							</form>
-						</td>
-						<td>8,499,000 đ</td>
-					</tr>
-					<tr>
-						<td><img src="images/wardrobe.jpg" alt="Large Wardrobe"
-							style="width: 50px; height: 50px;"> Large Wardrobe</td>
-						<td>12,999,000 đ</td>
-						<td>
-							<form action="updateCart" method="post">
-								<input type="hidden" name="productId" value="3" /> <input
-									type="number" name="quantity" value="1" min="1" />
-								<button type="submit">Update</button>
-							</form>
-						</td>
-						<td>12,999,000 đ</td>
-					</tr>
-				</tbody>
-			</table>
-			<a href="continueShopping.jsp">← Continue Shopping</a>
-		</div>
+    <h1>Order Summary</h1>
+    <div class="container">
+        <!-- Kiểm tra giỏ hàng -->
+        <c:if test="${not empty sessionScope.cart}">
+            <h2>Products in Your Cart</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Hiển thị từng sản phẩm -->
+                    <c:set var="tongTien" value="0" />
+                    <c:forEach var="item" items="${sessionScope.cart}">
+                        <tr>
+                            <td>
+                                <img src="/QLCuaHangNoiThat/image/${item.hinhAnh}" 
+                                     alt="${item.ten}">
+                                <br>${item.ten}
+                            </td>
+                            <td>
+                                <fmt:formatNumber value="${item.gia}" type="currency" currencySymbol="đ" />
+                            </td>
+                            <td>${item.soLuong}</td>
+                            <td>
+                                <fmt:formatNumber value="${item.gia * item.soLuong}" type="currency" currencySymbol="đ" />
+                            </td>
+                        </tr>
+                        <!-- Tính tổng tiền -->
+                        <c:set var="tongTien" value="${tongTien + (item.gia * item.soLuong)}" />
+                    </c:forEach>
+                </tbody>
+            </table>
 
-		<!-- Cart Summary Section -->
-		<div class="cart-summary">
-			<h3>Cart Totals</h3>
-			<p class="subtotal">Subtotal: 27,497,000 đ</p>
-			<p class="total">Total: 27,497,000 đ</p>
-			<form action="thongTinDatHang.jsp" method="get">
-				<button type="submit">Thanh toán</button>
-			</form>
-		</div>
-	</div>
+            <!-- Hiển thị tổng tiền -->
+            <div class="total">
+                <h3>Total Amount:</h3>
+                <p>
+                    <fmt:formatNumber value="${tongTien}" type="currency" currencySymbol="đ" />
+                </p>
+            </div>
+
+            <!-- Form xác nhận thanh toán -->
+            <form action="submitOrder.jsp" method="post">
+                <button class="btn" type="submit">Thanh toán</button>
+            </form>
+        </c:if>
+
+        <!-- Thông báo nếu giỏ hàng rỗng -->
+        <c:if test="${empty sessionScope.cart}">
+            <h2>Your cart is empty</h2>
+            <a href="/QLCuaHangNoiThat/views/khachHang/shop.jsp" class="btn">Back to Shop</a>
+        </c:if>
+    </div>
 </body>
 </html>

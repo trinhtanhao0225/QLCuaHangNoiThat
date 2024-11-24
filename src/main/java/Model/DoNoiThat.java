@@ -8,7 +8,7 @@ public class DoNoiThat {
 	private int soLuong;
 	private String moTa;
 	private String hinhAnh;
-	private String trangThai;
+	private DanhMuc danhMuc;
 	public int getId() {
 		return id;
 	}
@@ -51,29 +51,25 @@ public class DoNoiThat {
 	public void setHinhAnh(String hinhAnh) {
 		this.hinhAnh = hinhAnh;
 	}
-	public String getTrangThai() {
-		return trangThai;
+
+	
+	public DanhMuc getDanhMuc() {
+		return danhMuc;
 	}
-	public void setTrangThai(String trangThai) {
-		this.trangThai = trangThai;
+
+	
+	
+
+	public void setDanhMuc(DanhMuc danhMuc) {
+		this.danhMuc = danhMuc;
 	}
-	public DoNoiThat(int id, String ten, float gia, String mauSac, int soLuong, String moTa, String hinhAnh,
-			String trangThai) {
-		super();
-		this.id = id;
-		this.ten = ten;
-		this.gia = gia;
-		this.mauSac = mauSac;
-		this.soLuong = soLuong;
-		this.moTa = moTa;
-		this.hinhAnh = hinhAnh;
-		this.trangThai = trangThai;
-	}
+
 	public DoNoiThat() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public DoNoiThat(int id, String ten, float gia, String mauSac, int soLuong, String moTa, String hinhAnh) {
+	public DoNoiThat(int id, String ten, float gia, String mauSac, int soLuong, String moTa, String hinhAnh,
+			DanhMuc danhMuc) {
 		super();
 		this.id = id;
 		this.ten = ten;
@@ -82,7 +78,17 @@ public class DoNoiThat {
 		this.soLuong = soLuong;
 		this.moTa = moTa;
 		this.hinhAnh = hinhAnh;
+		this.danhMuc = danhMuc;
 	}
 
-	
+	public DoNoiThat(int id, String ten, float gia, String mauSac,int soLuong, String hinhAnh) {
+		super();
+		this.id = id;
+		this.ten = ten;
+		this.gia = gia;
+		this.mauSac = mauSac;
+		this.soLuong = soLuong;
+		this.hinhAnh = hinhAnh;
+	}
+
 }

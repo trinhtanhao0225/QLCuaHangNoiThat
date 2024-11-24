@@ -6,18 +6,25 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import Model.ChiTietHoaDon;
+import Model.ChiTietHoaDonDAO;
+import Model.KhachHang;
+import Model.KhachHangDAO;
 
 /**
- * Servlet implementation class LoadChiTietDNT
+ * Servlet implementation class LoadChiTietHD
  */
-@WebServlet("/LoadChiTietDNT")
-public class LoadChiTietDNT extends HttpServlet {
+@WebServlet("/LoadChiTietHD")
+public class LoadChiTietHD extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoadChiTietDNT() {
+    public LoadChiTietHD() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,7 +34,15 @@ public class LoadChiTietDNT extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+
+		List<ChiTietHoaDon> cthd=ChiTietHoaDonDAO.getAllChiTietHD(); 
+		System.out.println(cthd.size());
+        request.setAttribute("listCTHD", cthd);
+        request.getRequestDispatcher("/views/nhanVien/danhSachHoaDon.jsp").forward(request, response);
+        
+		
 	}
 
 	/**

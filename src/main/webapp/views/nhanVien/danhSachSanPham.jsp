@@ -43,18 +43,22 @@
 	<!-- Dashboard -->
 	<div>
 		<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+		<li class="nav-item" role="presentation">
+	        <form action="<%= request.getContextPath() %>/LoadKhoHang" method="get" style="display: inline;">
+	            <button class="nav-link active" type="submit" role="tab">Danh sách sản phẩm</button>
+	        </form>
+	    </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link active" onclick="location.href='danhSachSanPham.jsp'" type="button" role="tab">Danh sách sản phẩm</button>
+    <button class="nav-link " onclick="location.href='/QLCuaHangNoiThat/views/nhanVien/chiTietHangHoa.jsp'" type="button" role="tab">Chi tiết hàng hoá</button>
   </li>
   <li class="nav-item" role="presentation">
-    <button class="nav-link " onclick="location.href='chiTietHangHoa.jsp'" type="button" role="tab">Chi tiết hàng hoá</button>
+    <button class="nav-link " onclick="location.href='/QLCuaHangNoiThat/views/nhanVien/thongTinKhachHang.jsp'" type="button" role="tab">Thông tin khách hàng</button>
   </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link " onclick="location.href='thongTinKhachHang.jsp'" type="button" role="tab">Thông tin khách hàng</button>
-  </li>
-      <li class="nav-item" role="presentation">
-    <button class="nav-link" onclick="location.href='danhSachHoaDon.jsp'" type="button" role="tab">Danh sách hoá đơn</button>
-  </li>
+   	<li class="nav-item" role="presentation">
+        <form action="<%= request.getContextPath() %>/LoadLSMuaHang" method="get" style="display: inline;">
+            <button class="nav-link " type="submit" role="tab">Danh sách hoá đơn</button>
+        </form>
+    </li>
 </ul>
 	</div>
 	<!-- Form chính -->
@@ -68,16 +72,18 @@
                     <th>Giá</th>
                     <th>Màu sắc</th>
                     <th>Số lượng</th>
+                    <th>Danh mục</th>
                 </tr>
             </thead>
             <tbody>
                 <c:forEach var="dnt" items="${listDNT}">
-                    <tr class="text-center" onclick="window.location.href='${pageContext.request.contextPath}/views/nhanVien/chiTietHangHoa.jsp?id=' + encodeURIComponent('${dnt.id}') + '&ten=' + encodeURIComponent('${dnt.ten}') + '&gia=' + encodeURIComponent('${dnt.gia}') + '&mauSac=' + encodeURIComponent('${dnt.mauSac}') + '&soLuong=' + encodeURIComponent('${dnt.soLuong}') + '&moTa=' + encodeURIComponent('${dnt.moTa}') + '&hinhAnh=' + encodeURIComponent('${dnt.hinhAnh}')">		
+                    <tr class="text-center" onclick="window.location.href='${pageContext.request.contextPath}/views/nhanVien/chiTietHangHoa.jsp?id=' + encodeURIComponent('${dnt.id}') + '&ten=' + encodeURIComponent('${dnt.ten}') + '&gia=' + encodeURIComponent('${dnt.gia}') + '&mauSac=' + encodeURIComponent('${dnt.mauSac}') + '&soLuong=' + encodeURIComponent('${dnt.soLuong}') + '&moTa=' + encodeURIComponent('${dnt.moTa}') + '&hinhAnh=' + encodeURIComponent('${dnt.hinhAnh}')" &gia=' + encodeURIComponent('${dnt.gia}') + '&mauSac=' + encodeURIComponent('${dnt.mauSac}') + '&idDanhMuc=' + encodeURIComponent('${dnt.danhMuc.id}') &gia=' + encodeURIComponent('${dnt.gia}') + '&mauSac=' + encodeURIComponent('${dnt.mauSac}')>		
                         <td>${dnt.id}</td>
                         <td>${dnt.ten}</td>
                         <td>${dnt.gia}</td>
                         <td>${dnt.mauSac}</td>
                         <td>${dnt.soLuong}</td>
+                        <td>${dnt.danhMuc.ten}</td>
                     </tr>
                 </c:forEach> 
             </tbody>
