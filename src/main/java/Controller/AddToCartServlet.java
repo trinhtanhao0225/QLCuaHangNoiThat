@@ -72,7 +72,6 @@ public class AddToCartServlet extends HttpServlet {
             request.getRequestDispatcher("views/khachHang/shop.jsp").forward(request, response);
         }
     }
-
     // Hàm tính tổng số lượng sản phẩm trong giỏ hàng
     private int countProduct(List<DoNoiThat> cartList) {
         int cnt = 0;

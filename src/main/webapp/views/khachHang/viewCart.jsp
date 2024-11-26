@@ -41,6 +41,7 @@
                     <th>Giá</th>
                     <th>Số lượng</th>
                     <th>Thành tiền</th>
+                    <th>Xoá sản phẩm</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,8 +50,26 @@
                         <td><img src="/QLCuaHangNoiThat/image/${item.hinhAnh}" alt="${item.ten}"></td>
                         <td>${item.ten}</td>
                         <td><fmt:formatNumber value="${item.gia}" type="currency" currencySymbol="đ" /></td>
-                        <td>${item.soLuong}</td>
+                             <td>
+					            <form action="/QLCuaHangNoiThat/UpdateQuantity" method="post" style="display: inline;">
+					                <input type="hidden" name="productId" value="${item.id}" />
+					                <input type="hidden" name="action" value="decrease" />
+					                <button type="submit" class="btn btn-secondary btn-sm">-</button>
+					            </form>
+					            ${item.soLuong}
+					            <form action="/QLCuaHangNoiThat/UpdateQuantity" method="post" style="display: inline;">
+					                <input type="hidden" name="productId" value="${item.id}" />
+					                <input type="hidden" name="action" value="increase" />
+					                <button type="submit" class="btn btn-secondary btn-sm">+</button>
+					            </form>
+					        </td>
                         <td><fmt:formatNumber value="${item.gia * item.soLuong}" type="currency" currencySymbol="đ" /></td>
+                    	<td>
+                    	    <form action="/QLCuaHangNoiThat/DeleteFromCart" method="post">
+				                <input type="hidden" name="productId" value="${item.id}" />
+				                <button type="submit" class="btn btn-danger">Xóa</button>
+				            </form>
+                    	</td>
                     </tr>
                     <c:set var="tongTien" value="${tongTien + (item.gia * item.soLuong)}" />
                 </c:forEach>
