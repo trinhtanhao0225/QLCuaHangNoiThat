@@ -23,7 +23,7 @@
     <h1>Giỏ hàng của bạn</h1>
 
     <!-- Kiểm tra nếu giỏ hàng trống -->
-    <c:if test="${empty sessionScope.cart}">
+    <c:if test="${empty sessionScope.cartProduct}">
         <div class="empty-cart">
             <p>Giỏ hàng trống</p>
             <a href="/QLCuaHangNoiThat/views/khachHang/shop.jsp" class="btn">Tiếp tục mua sắm</a>
@@ -31,7 +31,7 @@
     </c:if>
 
     <!-- Hiển thị giỏ hàng nếu không trống -->
-    <c:if test="${not empty sessionScope.cart}">
+    <c:if test="${not empty sessionScope.cartProduct}">
         <c:set var="tongTien" value="0" />
         <table>
             <thead>
@@ -44,7 +44,7 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="item" items="${sessionScope.cart}">
+                <c:forEach var="item" items="${cartProduct}">
                     <tr>
                         <td><img src="/QLCuaHangNoiThat/image/${item.hinhAnh}" alt="${item.ten}"></td>
                         <td>${item.ten}</td>

@@ -10,60 +10,75 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.CartItem;
+import Model.DoNoiThat;
 import Model.DoNoiThatDAO;
-
 @WebServlet("/addToCart")
 public class AddToCartServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy thông tin sản phẩm từ request
         int id = Integer.parseInt(request.getParameter("id"));
         String ten = request.getParameter("ten");
         String hinhAnh = request.getParameter("hinhAnh");
         float gia = Float.parseFloat(request.getParameter("gia"));
+        int soLuong = Integer.parseInt(request.getParameter("soLuong"));
+        int soLuongMua = Integer.parseInt(request.getParameter("soLuongMua"));
 
-        // Lấy giỏ hàng từ session
         HttpSession session = request.getSession();
-        List<CartItem> cartList = (List<CartItem>) session.getAttribute("cart");
+        List<DoNoiThat> cartList = (List<DoNoiThat>) session.getAttribute("cartProduct");
 
+        // Kiểm tra giỏ hàng trong session
         if (cartList == null) {
-            cartList = new ArrayList<>();
+            cartList = new ArrayList<>(); // Nếu giỏ hàng chưa có, khởi tạo giỏ hàng mới
         }
 
-        // Kiểm tra số lượng sản phẩm trong kho trước khi thêm
-        boolean isStockAvailable = DoNoiThatDAO.reduceQuantity(id, 1);
-        if (!isStockAvailable) {
-            // Không đủ số lượng, hiển thị thông báo lỗi
-            session.setAttribute("errorMessage", "Sản phẩm \"" + ten + "\" đã hết hàng.");
-            response.sendRedirect("LoadSanPham"); // Quay lại trang sản phẩm
-            return;
-        }
+        try {
+            boolean productExists = false;
 
-        // Kiểm tra nếu sản phẩm đã tồn tại trong giỏ hàng
-        boolean productExists = false;
-        for (CartItem item : cartList) {
-            if (item.getId() == id) {
-                item.setSoLuong(item.getSoLuong() + 1); // Tăng số lượng trong giỏ hàng
-                productExists = true;
-                break;
+            // Duyệt qua giỏ hàng và kiểm tra nếu sản phẩm đã tồn tại
+            for (DoNoiThat item : cartList) {
+                if (item.getId() == id) {
+                    // Kiểm tra nếu số lượng trong giỏ + số lượng mua không vượt quá số lượng tồn kho
+                    if (item.getSoLuong() + soLuongMua > soLuong) {
+                        throw new IllegalArgumentException("Số lượng sản phẩm không đủ.");
+                    } else {
+                        item.setSoLuong(item.getSoLuong() + soLuongMua); // Cập nhật số lượng nếu đã có trong giỏ hàng
+                    }
+                    productExists = true;
+                    break;
+                }
             }
+
+            // Nếu sản phẩm chưa có trong giỏ, thêm mới vào giỏ hàng
+            if (!productExists) {
+                if (soLuongMua <= soLuong) {
+                    cartList.add(new DoNoiThat(id, ten, gia, soLuongMua, hinhAnh));
+                } else {
+                    throw new IllegalArgumentException("Số lượng sản phẩm không đủ.");
+                }
+            }
+
+            // Lưu giỏ hàng và số lượng vào session
+            session.setAttribute("cartProduct", cartList);
+            session.setAttribute("cartSize", countProduct(cartList));
+
+            // Chuyển hướng đến trang sản phẩm
+            response.sendRedirect("LoadSanPham");
+
+        } catch (IllegalArgumentException e) {
+            // Nếu có lỗi, thông báo cho người dùng và chuyển hướng về trang shop.jsp
+            request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher("views/khachHang/shop.jsp").forward(request, response);
         }
+    }
 
-        // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng
-        if (!productExists) {
-            cartList.add(new CartItem(id, ten, hinhAnh, gia, 1));
+    // Hàm tính tổng số lượng sản phẩm trong giỏ hàng
+    private int countProduct(List<DoNoiThat> cartList) {
+        int cnt = 0;
+        for (DoNoiThat item : cartList) {
+            cnt += item.getSoLuong();
         }
-
-        // Cập nhật giỏ hàng trong session
-        session.setAttribute("cart", cartList);
-
-        // Cập nhật badge (số lượng sản phẩm trong giỏ hàng)
-        session.setAttribute("cartSize", cartList.size());
-
-        // Chuyển hướng về trang sản phẩm
-        response.sendRedirect("LoadSanPham");
+        return cnt;
     }
 }

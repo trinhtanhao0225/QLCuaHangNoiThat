@@ -11,33 +11,29 @@ import java.util.List;
 
 import Model.DoNoiThat;
 import Model.DoNoiThatDAO;
-import Model.chiTietSP;
-import Model.chiTietSPDAO;
 
 /**
  * Servlet implementation class ChiTietSanPhamServlet
  */
 @WebServlet("/chiTietSanPham")
 public class ChiTietSanPhamServlet extends HttpServlet {
-	private chiTietSPDAO chitietSPDAO;
+
 
     @Override
     public void init() throws ServletException {
-        chitietSPDAO = new chiTietSPDAO();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Lấy tham số từ URL
         int productId = Integer.parseInt(request.getParameter("id"));
-
+        
         // Lấy chi tiết sản phẩm hiện tại
-        chiTietSP currentProduct = chitietSPDAO.getProductById(productId);
-
+        DoNoiThat currentProduct = DoNoiThatDAO.getProductById(productId);
         if (currentProduct != null) {
             // Lấy danh sách sản phẩm cùng danh mục
-            List<chiTietSP> relatedProducts = chitietSPDAO.getRelatedProducts(
-                currentProduct.getMaDanhMuc(), currentProduct.getId()
+            List<DoNoiThat> relatedProducts = DoNoiThatDAO.getRelatedProducts(
+                currentProduct.getDanhMuc().getId(), currentProduct.getId()
             );
 
             // Gửi dữ liệu qua JSP

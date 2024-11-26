@@ -144,8 +144,8 @@
                     <textarea id="address" name="address" rows="3" placeholder="Nhập địa chỉ cụ thể (số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố)" required></textarea>
 
                     <label for="orderTime">Thời Gian Đặt Hàng *</label>
-                    <input type="text" id="orderTime" name="orderTime"
-                           value="<%=new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date())%>" readonly>
+                    <input type="date" id="orderTime" name="orderTime" required>
+
                 </form>
             </div>
 
@@ -162,7 +162,7 @@
                     </thead>
                     <tbody>
                         <c:set var="tongTien" value="0" />
-                        <c:forEach var="item" items="${sessionScope.cart}">
+                        <c:forEach var="item" items="${sessionScope.cartProduct}">
                             <tr>
                                 <td>${item.ten}</td>
                                 <td>${item.soLuong}</td>

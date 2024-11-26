@@ -90,5 +90,16 @@ public class DoNoiThat {
 		this.soLuong = soLuong;
 		this.hinhAnh = hinhAnh;
 	}
-
+	public DoNoiThat(int id, String ten, float gia, int soLuong, String hinhAnh) {
+		super();
+		this.id = id;
+		this.ten = ten;
+		this.gia = gia;
+		this.soLuong = soLuong;
+		this.hinhAnh = hinhAnh;
+	}
+	 public float getTotalPrice() {
+	        return this.gia * this.soLuong;
+	    }
+	
 }

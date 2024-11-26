@@ -51,6 +51,13 @@ public class HoaDon {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	public HoaDon(float tongTien, String cccd, String ten, Date thoiGianDatHang) {
+		super();
+		this.tongTien = tongTien;
+		this.cccd = cccd;
+		this.ten = ten;
+		this.thoiGianDatHang = thoiGianDatHang;
+	}
 	
 	
 }
