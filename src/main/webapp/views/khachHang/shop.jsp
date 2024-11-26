@@ -98,7 +98,10 @@
             <button>Khám Phá Ngay</button>
         </div>
     </div>
-
+	<c:if test="${not empty error}">
+    <div class="alert alert-danger">${error}</div>
+</c:if>
+	
     <!-- Sản phẩm -->
     <div class="product-container">
         <c:if test="${not empty errorMessage}">
@@ -113,8 +116,7 @@
                         <span><p>Giá : ${product.gia}đ   | </p></span>
                         <span><p>Màu sắc : ${product.mauSac}</p></span>
                     </div>
-                    <p>${product.moTa}</p>
-                    <a href="chiTietSanPham?id=${product.id}">
+                    <a href="<%= request.getContextPath() %>/chiTietSanPham?id=${product.id}">
                         <button type="button" class="btn btn-dark">Xem Chi Tiết</button>
                     </a>
                     <c:if test="${product.soLuong > 0}">
@@ -123,6 +125,9 @@
                             <input type="hidden" name="ten" value="${product.ten}">
                             <input type="hidden" name="hinhAnh" value="${product.hinhAnh}">
                             <input type="hidden" name="gia" value="${product.gia}">
+                            <input type="hidden" name="soLuong" value="${product.soLuong}">
+                            <input type="hidden" name="soLuongMua" value="1">
+                            
                             <button type="submit" class="add-to-cart">Thêm vào giỏ hàng</button>
                         </form>
                     </c:if>

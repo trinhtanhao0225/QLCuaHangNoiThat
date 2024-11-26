@@ -32,23 +32,6 @@ public class DoNoiThatDAO {
 	    return list;
 	}
 
-	public static List<DoNoiThat> getALLDoNoiThat1(){
-		List<DoNoiThat> list =new ArrayList<DoNoiThat>();
-		String sqlString="SELECT * from DoNoiThat";
-	    try {
-	        PreparedStatement ps = conn.prepareStatement(sqlString);
-	        ResultSet rs = ps.executeQuery();
-
-	        while (rs.next()) {
-	            DoNoiThat dnt = new DoNoiThat(rs.getInt("id"),rs.getString("ten"),rs.getFloat("gia"),rs.getString("mauSac"),rs.getInt("soLuong"),rs.getString("hinhAnh"));
-	            list.add(dnt);
-	            
-	        }
-	    } catch (Exception ex) {
-	        ex.printStackTrace();
-	    }
-	    return list;
-	}
 	public static List<DoNoiThat> searchProductsByName(String name) {
 	    List<DoNoiThat> products = new ArrayList<>();
 	    try (Connection conn = DBConnection.Database.getConnection()) {
@@ -72,36 +55,19 @@ public class DoNoiThatDAO {
 	    }
 	    return products;
 	}
-	public static boolean reduceQuantity(int id, int quantityToReduce) {
+	public static boolean checkQuantity(int id, int quantityToReduce) {
 	    String checkQuery = "SELECT soLuong FROM DoNoiThat WHERE id = ?";
-	    String updateQuery = "UPDATE DoNoiThat SET soLuong = soLuong - ? WHERE id = ? AND soLuong >= ?";
-	    try (Connection conn = DBConnection.Database.getConnection()) {
-	        // Kiểm tra số lượng hiện tại
-	        try (PreparedStatement checkStmt = conn.prepareStatement(checkQuery)) {
-	            checkStmt.setInt(1, id);
-	            ResultSet rs = checkStmt.executeQuery();
-	            if (rs.next() && rs.getInt("soLuong") < quantityToReduce) {
-	                return false; // Không đủ số lượng
-	            }
-	        }
-	        
-	        // Thực hiện giảm số lượng
-	        try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
-	            updateStmt.setInt(1, quantityToReduce);
-	            updateStmt.setInt(2, id);
-	            updateStmt.setInt(3, quantityToReduce);
-	            int rowsAffected = updateStmt.executeUpdate();
-	            return rowsAffected > 0;
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    return false;
+	    try {
+	    	PreparedStatement checkStmt = conn.prepareStatement(checkQuery);
+	    	checkStmt.setInt(1, id);
+            ResultSet rs = checkStmt.executeQuery();
+            if (rs.next() && rs.getInt("soLuong") < quantityToReduce) {
+                return false; // Không đủ số lượng
+            }
+	    }catch (Exception e) {
+		}
+	   return true;
 	}
-
-
-
-
 
 	public static void themCapNhatDoNoiThat(DoNoiThat dnt) {
 	    String sqlCheck = "SELECT COUNT(*) FROM DoNoiThat WHERE id = ?";
@@ -143,5 +109,65 @@ public class DoNoiThatDAO {
 	    }
 	}
 
+    public static List<DoNoiThat> getRelatedProducts(int maDanhMuc, int excludeId) {
+        List<DoNoiThat> relatedProducts = new ArrayList<>();
+	    String sqlString = "SELECT DoNoiThat.id, DoNoiThat.ten, DoNoiThat.gia, DoNoiThat.mauSac, " +
+                "DoNoiThat.soLuong, DoNoiThat.moTa, DoNoiThat.hinhAnh, " +
+                "DoNoiThat.maDanhMuc, DanhMuc.ten AS tenDanhMuc " +
+                "FROM DoNoiThat " +
+                "JOIN DanhMuc ON DoNoiThat.maDanhMuc = DanhMuc.id WHERE DoNoiThat.maDanhMuc = ? AND DoNoiThat.id != ?";
+        try (Connection conn = DBConnection.Database.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlString)) {
+            stmt.setInt(1, maDanhMuc); // Danh mục của sản phẩm
+            stmt.setInt(2, excludeId); // Loại trừ sản phẩm hiện tại
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+            	DoNoiThat product = new DoNoiThat(
+                    rs.getInt("id"),
+                    rs.getString("ten"),
+                    rs.getFloat("gia"),
+                    rs.getString("mauSac"),
+                    rs.getInt("soLuong"),
+                    rs.getString("moTa"),
+                    rs.getString("hinhAnh"),
+                    new DanhMuc(rs.getInt("maDanhMuc"),rs.getString("tenDanhMuc"))
+                );
+                relatedProducts.add(product);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return relatedProducts;
+    }
 	
+	public static DoNoiThat getProductById(int id) {
+	    String sqlString = "SELECT DoNoiThat.id, DoNoiThat.ten, DoNoiThat.gia, DoNoiThat.mauSac, " +
+			                "DoNoiThat.soLuong, DoNoiThat.moTa, DoNoiThat.hinhAnh, " +
+			                "DoNoiThat.maDanhMuc, DanhMuc.ten AS tenDanhMuc " +
+			                "FROM DoNoiThat " +
+			                "JOIN DanhMuc ON DoNoiThat.maDanhMuc = DanhMuc.id where DoNoiThat.id = ?";
+
+	    try (Connection conn = DBConnection.Database.getConnection();
+	         PreparedStatement statement = conn.prepareStatement(sqlString)) {
+	        statement.setInt(1, id);
+	        ResultSet rs = statement.executeQuery();
+	        if (rs.next()) {
+            	 DoNoiThat product = new DoNoiThat(
+                        rs.getInt("id"),
+                        rs.getString("ten"),
+                        rs.getFloat("gia"),
+                        rs.getString("mauSac"),
+                        rs.getInt("soLuong"),
+                        rs.getString("moTa"),
+                        rs.getString("hinhAnh"),
+                        new DanhMuc(rs.getInt("maDanhMuc"),rs.getString("tenDanhMuc")));
+            	 return product;    
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return null;
+	}
 }

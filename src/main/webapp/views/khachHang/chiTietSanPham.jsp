@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>Chi tiết sản phẩm</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     
     <link rel="stylesheet" href="/QLCuaHangNoiThat/css/style.css">
     <style>
@@ -82,35 +83,73 @@
             <h2>${currentProduct.ten}</h2>
             <p><b style="font-size: 30px">Giá: ${currentProduct.gia}đ</b></p>
             <p>Màu sắc: ${currentProduct.mauSac}</p>
-            <p>Số lượng: ${currentProduct.soLuong}</p>
+            <div class="d-flex align-items-center">
+			    <!-- Nút giảm số lượng -->
+			    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="decreaseQuantity()" style="margin-right: 10px;">
+			        <i class="bi bi-dash"></i> <!-- Icon trừ -->
+			    </button>
+			
+			    <!-- Hiển thị số lượng -->
+			    <span id="quantity" class="px-3 border border-secondary rounded">1</span>
+			
+			    <!-- Nút tăng số lượng -->
+			    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="increaseQuantity()" style="margin-left: 10px;">
+			        <i class="bi bi-plus"></i> <!-- Icon cộng -->
+			    </button>
+			</div>
             <p>Mô tả: ${currentProduct.moTa}</p>
-            <form action="addToCart" method="post">
+            <form action="addToCart" method="post" onsubmit="updateQuantityField()">
                 <input type="hidden" name="id" value="${currentProduct.id}">
                 <input type="hidden" name="ten" value="${currentProduct.ten}">
                 <input type="hidden" name="hinhAnh" value="${currentProduct.hinhAnh}">
                 <input type="hidden" name="gia" value="${currentProduct.gia}">
+                <input type="hidden" name="soLuong" value="${currentProduct.soLuong}">
+                <input type="hidden" name="soLuongMua" id="quantityField" value="1">
                 <button type="submit" class="add-to-cart">Thêm vào giỏ hàng</button>
             </form>
         </div>
     </div>
     
-   <h2 style="margin-left :30px">Sản phẩm liên quan</h2>
-    <c:if test="${not empty relatedProducts}">
-        <ul>
-            <c:forEach var="product" items="${relatedProducts}">
-                <div style="display: inline-block; margin:30px" >
-                <li>
-                        <img src="/QLCuaHangNoiThat/image/${product.hinhAnh}" alt="${product.ten}" style="width: 330px; height: 400px;">
-                        <p>${product.ten} - ${product.gia} VND</p>
-                     <a href="chiTietSanPham?id=${product.id}"><button type="button" class="btn btn-dark">Xem Chi Tiết</button></a>
-                </li>
-                </div>
-            </c:forEach>
-        </ul>
-    </c:if>
-    <c:if test="${empty relatedProducts}">
-        <p>Không có sản phẩm liên quan.</p>
-    </c:if>
+	 <h2 style="margin-left: 30px;">Sản phẩm liên quan về : ${currentProduct.danhMuc.ten}</h2>
+	<c:choose>
+	    <c:when test="${not empty relatedProducts}">
+	        <ul>
+	            <c:forEach var="product" items="${relatedProducts}">
+	                <div style="display: inline-block; margin: 30px;">
+	                    <li>
+	                        <img src="/QLCuaHangNoiThat/image/${product.hinhAnh}" alt="${product.ten}" style="width: 330px; height: 400px;">
+	                        <p>${product.ten} - ${product.gia} VND</p>
+	                        <a href="chiTietSanPham?id=${product.id}">
+	                            <button type="button" class="btn btn-dark">Xem Chi Tiết</button>
+	                        </a>
+	                    </li>
+	                </div>
+	            </c:forEach>
+	        </ul>
+	    </c:when>
+	    <c:otherwise>
+	        <p>Không có sản phẩm liên quan.</p>
+	    </c:otherwise>
+	</c:choose>
+<script>
+    // Lấy số lượng hiện tại từ phần tử HTML
+    let quantity =  parseInt(document.getElementById('quantity').innerText);
+
+    function increaseQuantity() {
+        quantity++;
+        document.getElementById('quantity').innerText = quantity;
+    }
+
+    function decreaseQuantity() {
+        if (quantity > 1) { // Không cho giảm dưới 1
+            quantity--;
+            document.getElementById('quantity').innerText = quantity;
+        }
+    }    
+    function updateQuantityField() {
+        document.getElementById('quantityField').value = quantity;
+    }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>  
 
 </body>

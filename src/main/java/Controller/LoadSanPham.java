@@ -22,12 +22,10 @@ public class LoadSanPham extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Gọi DAO để lấy danh sách sản phẩm
     	HttpSession session = request.getSession();
-        //DoNoiThatDAO donoithatDAO = new DoNoiThatDAO();
-        //List<DoNoiThat> donoithat = donoithatDAO.getALLDoNoiThat();
 
-        List<DoNoiThat> listDNT = DoNoiThatDAO.getALLDoNoiThat1();
+
+        List<DoNoiThat> listDNT = DoNoiThatDAO.getALLDoNoiThat();
 
         // Cập nhật lại session với danh sách mới
         session.setAttribute("listDNT", listDNT);

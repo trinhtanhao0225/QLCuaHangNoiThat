@@ -7,6 +7,7 @@ import java.sql.SQLException;
 public class Database {
 
 
+
 	private static final String DB_ServerName = "DESKTOP-NGD50VQ";
 
 	private static final String DB_login = "sa";

@@ -9,10 +9,14 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
-
-import Model.CartItem;
 import Model.DoNoiThat;
+import Model.HoaDon;
+import Model.HoaDonDAO;
+import Model.KhachHang;
+import Model.KhachHangDAO;
 
 @WebServlet("/submitOrder")
 public class LuuDonHangSer extends HttpServlet {
@@ -23,103 +27,55 @@ public class LuuDonHangSer extends HttpServlet {
             throws ServletException, IOException {
         String cccd = request.getParameter("cccd");
         String ten = request.getParameter("name");
-        String ngaySinh = request.getParameter("dob");
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date ngaySinh = null;
+        try {
+            // Chuyển đổi từ String sang java.util.Date
+            java.util.Date utilNgaySinh = sdf.parse(request.getParameter("dob"));
+            // Chuyển đổi sang java.sql.Date
+            ngaySinh = new java.sql.Date(utilNgaySinh.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        
         String email = request.getParameter("email");
         String soDienThoai = request.getParameter("phone");
         String diaChi = request.getParameter("address");
-        String thoiGian = request.getParameter("orderTime"); // Lấy thời gian từ JSP
+        Date thoiGian = null;
+        try {
+            // Chuyển đổi từ String sang java.util.Date
+            java.util.Date utilThoiGian = sdf.parse(request.getParameter("orderTime"));
+            // Chuyển đổi sang java.sql.Date
+            thoiGian = new java.sql.Date(utilThoiGian.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         // Lấy giỏ hàng từ session (danh sách CartItem)
         @SuppressWarnings("unchecked")
-        List<CartItem> cart = (List<CartItem>) request.getSession().getAttribute("cart");
+        List<DoNoiThat> cart = (List<DoNoiThat>) request.getSession().getAttribute("cartProduct");
         if (cart == null || cart.isEmpty()) {
             response.getWriter().write("Giỏ hàng trống!");
             return;
         }
 
-        Connection conn = null;
+        // Tạo khách hàng và lưu vào cơ sở dữ liệu
+        KhachHang khachHang = new KhachHang(cccd, ten, ngaySinh, email, soDienThoai, diaChi);
+        KhachHangDAO.themKhachHang(khachHang);
+        
+        // Tính tổng tiền từ giỏ hàng
+        double tongTien = cart.stream().mapToDouble(DoNoiThat::getTotalPrice).sum();
+        
+        // Tạo hóa đơn và lưu vào cơ sở dữ liệu
+        HoaDon hDon = new HoaDon((float) tongTien, cccd, ten, thoiGian);
+        HoaDonDAO.themHoaDon(hDon, cart);
 
-        try {
-            conn = DBConnection.Database.getConnection();
-            conn.setAutoCommit(false);
-
-            // 1. Thêm hoặc cập nhật thông tin khách hàng
-            String insertKhachHang = "INSERT INTO KhachHang (cccd, ten, ngaySinh, email, soDienThoai, diaChi) " +
-                    "SELECT ?, ?, ?, ?, ?, ? ";
-
-            try (PreparedStatement stmt = conn.prepareStatement(insertKhachHang)) {
-                stmt.setString(1, cccd);
-                stmt.setString(2, ten);
-                stmt.setDate(3, Date.valueOf(ngaySinh));
-                stmt.setString(4, email);
-                stmt.setString(5, soDienThoai);
-                stmt.setString(6, diaChi);
-                stmt.executeUpdate();
-            }
-
-            // 2. Thêm hóa đơn
-            Timestamp timestamp = Timestamp.valueOf(thoiGian + " 00:00:00"); // Đảm bảo thời gian có định dạng hợp lệ
-         // 2. Thêm hóa đơn (cập nhật câu lệnh SQL để thêm tên)
-            String insertHoaDon = "INSERT INTO HoaDon (cccd, ten, ngayDatHang, tongTien) VALUES (?, ?, ?, ?)";
-            int idHoaDon = 0;
-
-            // Tính tổng tiền dựa trên CartItem
-            double tongTien = cart.stream().mapToDouble(CartItem::getTotalPrice).sum();
-
-            try (PreparedStatement stmt = conn.prepareStatement(insertHoaDon, Statement.RETURN_GENERATED_KEYS)) {
-                stmt.setString(1, cccd);
-                stmt.setString(2, ten);  // Thêm tên khách hàng vào đây
-                stmt.setTimestamp(3, timestamp);
-                stmt.setDouble(4, tongTien);
-
-                stmt.executeUpdate();
-
-                try (ResultSet rs = stmt.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        idHoaDon = rs.getInt(1);
-                    } else {
-                        throw new SQLException("Không thể lấy ID hóa đơn.");
-                    }
-                }
-            }
-
-
-            // 3. Thêm chi tiết hóa đơn
-            String insertChiTietHoaDon = "INSERT INTO ChiTietHoaDon (idHoaDon, idDoNoiThat, soLuong, gia) " +
-                    "VALUES (?, ?, ?, ?)";
-
-            try (PreparedStatement stmt = conn.prepareStatement(insertChiTietHoaDon)) {
-                for (CartItem item : cart) {
-                    stmt.setInt(1, idHoaDon);
-                    stmt.setInt(2, item.getId());  // Lấy id của sản phẩm từ CartItem
-                    stmt.setInt(3, item.getSoLuong());  // Lấy số lượng từ CartItem
-                    stmt.setFloat(4, item.getGia());  // Lấy giá từ CartItem
-                    stmt.addBatch();
-                }
-                stmt.executeBatch();
-            }
-
-            conn.commit();
-            response.sendRedirect("/QLCuaHangNoiThat/views/khachHang/thanhToanThanhCong.jsp");
-
-        } catch (SQLException e) {
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException rollbackEx) {
-                    rollbackEx.printStackTrace();
-                }
-            }
-            response.getWriter().write("Lỗi: " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException closeEx) {
-                    closeEx.printStackTrace();
-                }
-            }
-        }
+        // Xóa giỏ hàng trong session sau khi thanh toán
+        request.getSession().setAttribute("cartProduct", null);
+        request.setAttribute("cartSize", 0);
+        
+        // Chuyển hướng đến trang thanh toán thành công
+        response.sendRedirect("/QLCuaHangNoiThat/views/khachHang/thanhToanThanhCong.jsp");
     }
 }
