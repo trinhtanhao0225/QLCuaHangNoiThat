@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Model.CartItem;
-import Model.DoNoiThatDAO;
 
 @WebServlet("/addToCart")
 public class AddToCartServlet extends HttpServlet {
@@ -31,15 +30,6 @@ public class AddToCartServlet extends HttpServlet {
 
         if (cartList == null) {
             cartList = new ArrayList<>();
-        }
-
-        // Kiểm tra số lượng sản phẩm trong kho trước khi thêm
-        boolean isStockAvailable = DoNoiThatDAO.reduceQuantity(id, 1);
-        if (!isStockAvailable) {
-            // Không đủ số lượng, hiển thị thông báo lỗi
-            session.setAttribute("errorMessage", "Sản phẩm \"" + ten + "\" đã hết hàng.");
-            response.sendRedirect("LoadSanPham"); // Quay lại trang sản phẩm
-            return;
         }
 
         // Kiểm tra nếu sản phẩm đã tồn tại trong giỏ hàng
