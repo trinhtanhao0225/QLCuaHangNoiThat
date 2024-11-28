@@ -73,7 +73,7 @@ public class LuuDonHangSer extends HttpServlet {
 
         // Xóa giỏ hàng trong session sau khi thanh toán
         request.getSession().setAttribute("cartProduct", null);
-        request.setAttribute("cartSize", 0);
+        request.getSession().setAttribute("cartSize", 0);
         
         // Chuyển hướng đến trang thanh toán thành công
         response.sendRedirect("/QLCuaHangNoiThat/views/khachHang/thanhToanThanhCong.jsp");
