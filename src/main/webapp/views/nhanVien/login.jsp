@@ -43,13 +43,20 @@
         }
 
         .login-container input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
+		    width: 100%;
+		    padding: 10px;
+		    margin-bottom: 15px;
+		    border: 1px solid #ccc;
+		    border-radius: 5px;
+		    font-size: 16px;
+		    box-sizing: border-box; /* Đảm bảo mọi phần tử vừa đúng kích thước */
+		}
+
+		.login-container input:hover {
+		    border-color: #007bff;
+		    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+		}
+
 
         /* Nút bấm */
         .login-container button {
@@ -64,9 +71,7 @@
             transition: background-color 0.3s;
         }
 
-        .login-container button:hover {
-            background-color: #0056b3;
-        }
+       
     </style>
 </head>
 <body>

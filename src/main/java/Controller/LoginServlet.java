@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
                         session.setAttribute("taikhoan", taikhoan);
 
                         // Chuyển hướng tới trang giao diện bán hàng
-                        response.sendRedirect(request.getContextPath() + "/views/nhanVien/chiTietHangHoa.jsp");
+                        response.sendRedirect(request.getContextPath() + "/views/nhanVien/danhSachSanPham.jsp");
                     } else {
                         // Sai thông tin đăng nhập, quay lại trang login
                         request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");

@@ -23,6 +23,25 @@
             text-align: center;
             color: white;
         }
+        header a {
+		    display: inline-block;
+		    padding: 10px 20px;
+		    background-color: #6c4b3d; /* Màu nền */
+		    color: white; /* Màu chữ */
+		    font-size: 16px;
+		    font-weight: bold;
+		    text-decoration: none; /* Bỏ gạch chân */
+		    border-radius: 5px; /* Bo tròn các góc */
+		    transition: all 0.3s ease; /* Hiệu ứng chuyển đổi mượt */
+		}
+		
+		header a:hover {
+		    background-color: #5a3d32; /* Màu nền khi hover */
+		    color: #f4f4f4; /* Màu chữ khi hover */
+		    transform: scale(1.05); /* Phóng to nhẹ khi hover */
+		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Thêm bóng */
+		}
+        
 
         .product-detail {
             display: flex;
@@ -74,9 +93,10 @@
     </style>
 </head>
 <body>
-    <header class="header">
-        <a href="/QLCuaHangNoiThat/LoadSanPham" style="color: white; text-decoration: none;">Quay lại</a>
-    </header>
+	<header class="header">
+	    <a href="/QLCuaHangNoiThat/LoadSanPham">Quay lại</a>
+	</header>
+
     <div class="product-detail">
         <img src="/QLCuaHangNoiThat/image/${currentProduct.hinhAnh}" alt="${currentProduct.ten}" >
         <div class="product-info">
