@@ -3,7 +3,7 @@ package Model;
 public class DoNoiThat {
 	private int id;
 	private String ten;
-	private float gia;
+	private double gia;
 	private String mauSac;
 	private int soLuong;
 	private String moTa;
@@ -21,7 +21,7 @@ public class DoNoiThat {
 	public void setTen(String ten) {
 		this.ten = ten;
 	}
-	public float getGia() {
+	public double getGia() {
 		return gia;
 	}
 	public void setGia(float gia) {
@@ -68,7 +68,7 @@ public class DoNoiThat {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public DoNoiThat(int id, String ten, float gia, String mauSac, int soLuong, String moTa, String hinhAnh,
+	public DoNoiThat(int id, String ten, double gia, String mauSac, int soLuong, String moTa, String hinhAnh,
 			DanhMuc danhMuc) {
 		super();
 		this.id = id;
@@ -98,7 +98,7 @@ public class DoNoiThat {
 		this.soLuong = soLuong;
 		this.hinhAnh = hinhAnh;
 	}
-	 public float getTotalPrice() {
+	 public double getTotalPrice() {
 	        return this.gia * this.soLuong;
 	    }
 	

@@ -53,7 +53,7 @@ public class HoaDonDAO {
 		                        stmtChiTietHoaDon.setInt(1, idHoaDon);
 		                        stmtChiTietHoaDon.setInt(2, product.getId());
 		                        stmtChiTietHoaDon.setInt(3, product.getSoLuong());
-		                        stmtChiTietHoaDon.setFloat(4, product.getTotalPrice());
+		                        stmtChiTietHoaDon.setDouble(4, product.getTotalPrice());
 		                        stmtChiTietHoaDon.addBatch();
 		                    }
 		                    stmtChiTietHoaDon.executeBatch();

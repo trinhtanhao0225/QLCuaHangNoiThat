@@ -38,7 +38,12 @@
 </head>
 
 <body>
-
+<% String message = (String) request.getAttribute("message"); %>
+<% if (message != null) { %>
+    <div class="alert alert-info" role="alert">
+        <%= message %>
+    </div>
+<% } %>
 <div class="container">
 	<!-- Dashboard -->
 	<div>
@@ -81,17 +86,27 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="dnt" items="${listDNT}">
-                    <tr class="text-center" onclick="window.location.href='${pageContext.request.contextPath}/views/nhanVien/chiTietHangHoa.jsp?id=' + encodeURIComponent('${dnt.id}') + '&ten=' + encodeURIComponent('${dnt.ten}') + '&gia=' + encodeURIComponent('${dnt.gia}') + '&mauSac=' + encodeURIComponent('${dnt.mauSac}') + '&soLuong=' + encodeURIComponent('${dnt.soLuong}') + '&moTa=' + encodeURIComponent('${dnt.moTa}') + '&hinhAnh=' + encodeURIComponent('${dnt.hinhAnh}')" &gia=' + encodeURIComponent('${dnt.gia}') + '&mauSac=' + encodeURIComponent('${dnt.mauSac}') + '&idDanhMuc=' + encodeURIComponent('${dnt.danhMuc.id}') &gia=' + encodeURIComponent('${dnt.gia}') + '&mauSac=' + encodeURIComponent('${dnt.mauSac}')>		
-                        <td>${dnt.id}</td>
-                        <td>${dnt.ten}</td>
-                        <td>${dnt.gia}</td>
-                        <td>${dnt.mauSac}</td>
-                        <td>${dnt.soLuong}</td>
-                        <td>${dnt.danhMuc.ten}</td>
-                    </tr>
-                </c:forEach> 
-            </tbody>
+			    <c:forEach var="dnt" items="${listDNT}">
+			        <tr class="text-center" 
+			            onclick="window.location.href='${pageContext.request.contextPath}/views/nhanVien/chiTietHangHoa.jsp?id=' 
+			                + encodeURIComponent('${dnt.id}') 
+			                + '&ten=' + encodeURIComponent('${dnt.ten}') 
+			                + '&gia=' + encodeURIComponent('${dnt.gia}') 
+			                + '&mauSac=' + encodeURIComponent('${dnt.mauSac}') 
+			                + '&soLuong=' + encodeURIComponent('${dnt.soLuong}') 
+			                + '&moTa=' + encodeURIComponent('${dnt.moTa}') 
+			                + '&hinhAnh=' + encodeURIComponent('${dnt.hinhAnh}') 
+			                + '&idDanhMuc=' + encodeURIComponent('${dnt.danhMuc.id}')">
+			            <td>${dnt.id}</td>
+			            <td>${dnt.ten}</td>
+			            <td>${dnt.gia}</td>
+			            <td>${dnt.mauSac}</td>
+			            <td>${dnt.soLuong}</td>
+			            <td>${dnt.danhMuc.ten}</td>
+			        </tr>
+			    </c:forEach>
+			</tbody>
+
         </table>
     </div>
 </div>
