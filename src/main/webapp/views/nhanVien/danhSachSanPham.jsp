@@ -59,6 +59,11 @@
             <button class="nav-link " type="submit" role="tab">Danh sách hoá đơn</button>
         </form>
     </li>
+    <li class="nav-item" role="presentation">
+        <form action="<%= request.getContextPath() %>/LoadSanPham" method="get" style="display: inline;">
+            <button class="nav-link " type="submit" role="tab">Trang chủ</button>
+        </form>
+    </li>
 </ul>
 	</div>
 	<!-- Form chính -->

@@ -16,13 +16,13 @@ import Model.DoNoiThat;
  * Servlet implementation class DeleteFromCart
  */
 @WebServlet("/DeleteFromCart")
-public class DeleteFromCart extends HttpServlet {
+public class xoaGioHangController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteFromCart() {
+    public xoaGioHangController() {
         super();
         // TODO Auto-generated constructor stub
     }

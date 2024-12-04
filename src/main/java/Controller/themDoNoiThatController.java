@@ -20,10 +20,10 @@ import jakarta.servlet.http.Part;
 
 @WebServlet("/AddDoNoiThat")
 @MultipartConfig  // Cần có để servlet xử lý multipart form data
-public class AddDoNoiThat extends HttpServlet {
+public class themDoNoiThatController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public AddDoNoiThat() {
+    public themDoNoiThatController() {
         super();
     }
 

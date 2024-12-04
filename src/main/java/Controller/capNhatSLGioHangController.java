@@ -16,13 +16,13 @@ import Model.DoNoiThat;
  * Servlet implementation class UpdateQuantity
  */
 @WebServlet("/UpdateQuantity")
-public class UpdateQuantity extends HttpServlet {
+public class capNhatSLGioHangController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateQuantity() {
+    public capNhatSLGioHangController() {
         super();
         // TODO Auto-generated constructor stub
     }

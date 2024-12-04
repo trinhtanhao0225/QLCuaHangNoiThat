@@ -17,13 +17,13 @@ import Model.DoNoiThatDAO;
  * Servlet implementation class LoadKhoHang
  */
 @WebServlet("/LoadKhoHang")
-public class LoadKhoHang extends HttpServlet {
+public class LoadKhoHangController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoadKhoHang() {
+    public LoadKhoHangController() {
         super();
     }
 

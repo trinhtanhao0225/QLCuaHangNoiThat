@@ -80,6 +80,9 @@
                     ${sessionScope.cartSize != null ? sessionScope.cartSize : 0}
                 </span>
             </a>
+             <a href="/QLCuaHangNoiThat/views/khachHang/viewCart.jsp">
+                <img src="/QLCuaHangNoiThat/image/list.png" alt="Giỏ hàng" class="icon">
+            </a>
         </div>
         <!-- Button Đăng nhập -->
         <div class="login-button-container">

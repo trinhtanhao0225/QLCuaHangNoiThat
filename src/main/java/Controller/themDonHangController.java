@@ -19,7 +19,7 @@ import Model.KhachHang;
 import Model.KhachHangDAO;
 
 @WebServlet("/submitOrder")
-public class LuuDonHangSer extends HttpServlet {
+public class themDonHangController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -60,11 +60,9 @@ public class LuuDonHangSer extends HttpServlet {
             return;
         }
 
-        // Tạo khách hàng và lưu vào cơ sở dữ liệu
         KhachHang khachHang = new KhachHang(cccd, ten, ngaySinh, email, soDienThoai, diaChi);
         KhachHangDAO.themKhachHang(khachHang);
         
-        // Tính tổng tiền từ giỏ hàng
         double tongTien = cart.stream().mapToDouble(DoNoiThat::getTotalPrice).sum();
         
         // Tạo hóa đơn và lưu vào cơ sở dữ liệu
@@ -73,7 +71,7 @@ public class LuuDonHangSer extends HttpServlet {
 
         // Xóa giỏ hàng trong session sau khi thanh toán
         request.getSession().setAttribute("cartProduct", null);
-        request.setAttribute("cartSize", 0);
+        request.getSession().setAttribute("cartSize", 0);
         
         // Chuyển hướng đến trang thanh toán thành công
         response.sendRedirect("/QLCuaHangNoiThat/views/khachHang/thanhToanThanhCong.jsp");

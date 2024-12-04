@@ -15,7 +15,7 @@ import Model.DoNoiThat;
 import Model.DoNoiThatDAO;
 
 @WebServlet("/addToCart")
-public class AddToCartServlet extends HttpServlet {
+public class themDoNoiThatGHController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -34,19 +34,11 @@ public class AddToCartServlet extends HttpServlet {
         if (cartList == null) {
             cartList = new ArrayList<>(); // Nếu giỏ hàng chưa có, khởi tạo giỏ hàng mới
         }
-
-
-      
-  
-       
-
         try {
             boolean productExists = false;
 
-            // Duyệt qua giỏ hàng và kiểm tra nếu sản phẩm đã tồn tại
             for (DoNoiThat item : cartList) {
                 if (item.getId() == id) {
-                    // Kiểm tra nếu số lượng trong giỏ + số lượng mua không vượt quá số lượng tồn kho
                     if (item.getSoLuong() + soLuongMua > soLuong) {
                         throw new IllegalArgumentException("Số lượng sản phẩm không đủ.");
                     } else {

@@ -16,13 +16,13 @@ import Model.DoNoiThatDAO;
  * Servlet implementation class SearchProductServlet
  */
 @WebServlet("/searchProduct")
-public class SearchProductServlet extends HttpServlet {
+public class timDoNoiThatController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SearchProductServlet() {
+    public timDoNoiThatController() {
         super();
         // TODO Auto-generated constructor stub
     }

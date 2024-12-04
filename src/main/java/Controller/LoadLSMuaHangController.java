@@ -5,26 +5,27 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import Model.ChiTietHoaDon;
-import Model.ChiTietHoaDonDAO;
-import Model.KhachHang;
-import Model.KhachHangDAO;
+import Model.DoNoiThat;
+import Model.DoNoiThatDAO;
+import Model.HoaDon;
+import Model.HoaDonDAO;
 
 /**
- * Servlet implementation class LoadChiTietHD
+ * Servlet implementation class LoadLSMuaHang
  */
-@WebServlet("/LoadChiTietHD")
-public class LoadChiTietHD extends HttpServlet {
+@WebServlet("/LoadLSMuaHang")
+public class LoadLSMuaHangController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoadChiTietHD() {
+    public LoadLSMuaHangController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,14 +36,18 @@ public class LoadChiTietHD extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		
+        HttpSession session = request.getSession();
 
-		List<ChiTietHoaDon> cthd=ChiTietHoaDonDAO.getAllChiTietHD(); 
-		System.out.println(cthd.size());
-        request.setAttribute("listCTHD", cthd);
+        // Lấy lại danh sách sản phẩm mới từ database sau khi thêm sản phẩm
+        List<HoaDon> listHoaDon = HoaDonDAO.getALLHoaDon();
+        // Cập nhật lại session với danh sách mới
+        session.setAttribute("listHoaDon", listHoaDon);
+
+        // Đặt thuộc tính cho request và chuyển hướng
+        request.setAttribute("listHoaDon", listHoaDon);
+
+        // Chuyển hướng đến trang danh sách sản phẩm
         request.getRequestDispatcher("/views/nhanVien/danhSachHoaDon.jsp").forward(request, response);
-        
-		
 	}
 
 	/**

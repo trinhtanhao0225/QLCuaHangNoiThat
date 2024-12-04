@@ -14,27 +14,23 @@ import Model.DoNoiThat;
 import Model.DoNoiThatDAO;
 
 @WebServlet("/LoadSanPham")
-public class LoadSanPham extends HttpServlet {
+public class LoadMuaHangController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    public LoadSanPham() {
+    public LoadMuaHangController() {
         super();
     }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	HttpSession session = request.getSession();
 
 
         List<DoNoiThat> listDNT = DoNoiThatDAO.getALLDoNoiThat();
 
-        // Cập nhật lại session với danh sách mới
         session.setAttribute("listDNT", listDNT);
 
-        // Đặt thuộc tính cho request và chuyển hướng
         request.setAttribute("listDNT", listDNT);
         request.setAttribute("message", "Thêm sản phẩm thành công!");
 
-        // Chuyển hướng sang JSP
         request.getRequestDispatcher("/views/khachHang/shop.jsp").forward(request, response);
     }
 
