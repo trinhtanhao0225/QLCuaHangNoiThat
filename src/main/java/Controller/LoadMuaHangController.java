@@ -23,7 +23,6 @@ public class LoadMuaHangController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	HttpSession session = request.getSession();
 
-
         List<DoNoiThat> listDNT = DoNoiThatDAO.getALLDoNoiThat();
 
         session.setAttribute("listDNT", listDNT);

@@ -27,7 +27,7 @@
         }
     </script>
 <style>
-/* Phong cách chung cho tiêu đề */
+
 .header {
 	display: flex;
 	justify-content: space-between;

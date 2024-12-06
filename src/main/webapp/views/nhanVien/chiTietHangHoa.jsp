@@ -130,7 +130,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label>Ảnh sản phẩm</label>
-                                <input type="file" id="file-input" name="imageFile" class="form-control" onchange="previewImage(event)" required>
+                                <input type="file" id="file-input" name="imageFile" class="form-control" onchange="previewImage(event)">
                                 <div id="uploaded-images" style="margin-top: 15px;">
                                     <%
                                         if (hinhAnh != null && !hinhAnh.isEmpty()) {
