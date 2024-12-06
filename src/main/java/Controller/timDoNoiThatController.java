@@ -35,6 +35,7 @@ public class timDoNoiThatController extends HttpServlet {
 		 String query = request.getParameter("query");
 	        List<DoNoiThat> products = DoNoiThatDAO.searchProductsByName(query); // Tìm sản phẩm theo tên
 	        request.setAttribute("listDNT", products);
+	        
 	        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/khachHang/shop.jsp");
 	        dispatcher.forward(request, response);
 	}

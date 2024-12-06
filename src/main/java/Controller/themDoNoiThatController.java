@@ -34,10 +34,9 @@ public class themDoNoiThatController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            // Lấy thông tin từ form
             int id = Integer.MAX_VALUE;
             String getID = request.getParameter("id");
-            if (getID != null && !getID.equals("null")) {
+            if (!getID.equals("")) {
                 id = Integer.parseInt(getID);
             }
             String ten = request.getParameter("ten");
@@ -48,11 +47,9 @@ public class themDoNoiThatController extends HttpServlet {
             String hinhAnh = request.getParameter("imageFileName");
             int maDanhMuc = Integer.parseInt(request.getParameter("maDanhMuc"));
 
-            // Tạo đối tượng và thêm vào cơ sở dữ liệu
             DoNoiThat dnt = new DoNoiThat(id, ten, gia, mauSac, soLuong, moTa, hinhAnh, new DanhMuc(maDanhMuc));
             DoNoiThatDAO.themCapNhatDoNoiThat(dnt);
 
-            // Lấy lại danh sách sản phẩm mới từ database
             List<DoNoiThat> listDNT = DoNoiThatDAO.getALLDoNoiThat();
 
             // Cập nhật lại session với danh sách mới
@@ -67,7 +64,6 @@ public class themDoNoiThatController extends HttpServlet {
             request.setAttribute("message", "Cập nhật thay đổi thất bại : " + e.getMessage());
         }
 
-        // Chuyển hướng đến trang danh sách sản phẩm
         request.getRequestDispatcher("/views/nhanVien/danhSachSanPham.jsp").forward(request, response);
     }
 

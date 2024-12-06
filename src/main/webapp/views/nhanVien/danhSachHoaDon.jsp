@@ -60,7 +60,7 @@ th.sorted-desc::after {
 		<div>
 			<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 				<li class="nav-item" role="presentation">
-					<form action="<%= request.getContextPath() %>/LoadKhoHang"
+					<form action="<%=request.getContextPath()%>/LoadKhoHang"
 						method="get" style="display: inline;">
 						<button class="nav-link" type="submit" role="tab">Danh
 							sách sản phẩm</button>
@@ -77,14 +77,14 @@ th.sorted-desc::after {
 						type="button" role="tab">Thông tin khách hàng</button>
 				</li>
 				<li class="nav-item" role="presentation">
-					<form action="<%= request.getContextPath() %>/LoadLSMuaHang"
+					<form action="<%=request.getContextPath()%>/LoadLSMuaHang"
 						method="get" style="display: inline;">
 						<button class="nav-link active" type="submit" role="tab">Danh
 							sách hoá đơn</button>
 					</form>
 				</li>
 				<li class="nav-item" role="presentation">
-					<form action="<%= request.getContextPath() %>/LoadSanPham"
+					<form action="<%=request.getContextPath()%>/LoadSanPham"
 						method="get" style="display: inline;">
 						<button class="nav-link " type="submit" role="tab">Trang
 							chủ</button>
@@ -154,7 +154,8 @@ th.sorted-desc::after {
 																		<tr>
 																			<td>${cthd.idDoNoiThat}</td>
 																			<td>${cthd.soLuong}</td>
-																			<td>${cthd.gia}</td>
+																			<td><fmt:formatNumber value="${cthd.gia}"
+																					type="number" pattern="#,###" /></td>
 																		</tr>
 																	</c:if>
 																</c:forEach>
@@ -175,44 +176,43 @@ th.sorted-desc::after {
 	</div>
 
 	<script>
-// Hàm toggle dòng phụ
-// Hàm toggle dòng phụ
-function toggleDropdown(id, hoaDonId) {
-    const dropdownRow = document.getElementById(id);
+		// Hàm toggle dòng phụ
+		// Hàm toggle dòng phụ
+		function toggleDropdown(id, hoaDonId) {
+			const dropdownRow = document.getElementById(id);
 
-    // Toggle trạng thái dropdown được chọn
-    dropdownRow.classList.toggle('show');
+			// Toggle trạng thái dropdown được chọn
+			dropdownRow.classList.toggle('show');
 
-    // Lưu trạng thái vào sessionStorage (hoặc localStorage)
-    const isVisible = dropdownRow.classList.contains('show');
-    sessionStorage.setItem(id, isVisible);
+			// Lưu trạng thái vào sessionStorage (hoặc localStorage)
+			const isVisible = dropdownRow.classList.contains('show');
+			sessionStorage.setItem(id, isVisible);
 
-    window.location.href = `/QLCuaHangNoiThat/LoadChiTietHD?idHD=${hoaDonId}`;
-}
+			window.location.href = `/QLCuaHangNoiThat/LoadChiTietHD?idHD=${hoaDonId}`;
+		}
 
-// Khi tải trang, kiểm tra trạng thái lưu trong sessionStorage
-window.onload = function() {
-    const items = document.querySelectorAll('.collapse');
-    items.forEach(function(item) {
-        const id = item.id;
-        const isVisible = sessionStorage.getItem(id) === 'true';
-        if (isVisible) {
-            item.classList.add('show');
-        }
-    });
-};
-window.onload = function() {
-    const items = document.querySelectorAll('.collapse');
-    items.forEach(function(item) {
-        const id = item.id;
-        const isVisible = sessionStorage.getItem(id) === 'true'; // Kiểm tra nếu trạng thái là 'true'
-        if (isVisible) {
-            item.classList.add('show'); // Thêm class show nếu đã lưu trạng thái là hiển thị
-        }
-    });
-};
-
-</script>
+		// Khi tải trang, kiểm tra trạng thái lưu trong sessionStorage
+		window.onload = function() {
+			const items = document.querySelectorAll('.collapse');
+			items.forEach(function(item) {
+				const id = item.id;
+				const isVisible = sessionStorage.getItem(id) === 'true';
+				if (isVisible) {
+					item.classList.add('show');
+				}
+			});
+		};
+		window.onload = function() {
+			const items = document.querySelectorAll('.collapse');
+			items.forEach(function(item) {
+				const id = item.id;
+				const isVisible = sessionStorage.getItem(id) === 'true'; // Kiểm tra nếu trạng thái là 'true'
+				if (isVisible) {
+					item.classList.add('show'); // Thêm class show nếu đã lưu trạng thái là hiển thị
+				}
+			});
+		};
+	</script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

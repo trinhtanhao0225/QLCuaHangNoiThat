@@ -34,52 +34,41 @@ public class themDoNoiThatGHController extends HttpServlet {
         List<DoNoiThat> cartList = (List<DoNoiThat>) session.getAttribute("cartProduct");
 
         if (cartList == null) {
-            cartList = new ArrayList<>(); // Nếu giỏ hàng chưa tồn tại, khởi tạo giỏ hàng mới
+            cartList = new ArrayList<>();
         }
 
         try {
             boolean productExists = false;
 
-            // Kiểm tra nếu sản phẩm đã tồn tại trong giỏ
             for (DoNoiThat item : cartList) {
                 if (item.getId() == id) {
-                    if (item.getSoLuong() + soLuongMua > soLuong) {
-                        throw new IllegalArgumentException("Số lượng sản phẩm không đủ.");
-                    } else {
+                    if (item.getSoLuong() + soLuongMua <= soLuong) {
                         item.setSoLuong(item.getSoLuong() + soLuongMua); // Cập nhật số lượng sản phẩm
-                    }
+                    } 
                     productExists = true;
                     break;
                 }
             }
-
-            // Nếu sản phẩm chưa có trong giỏ, thêm mới
+            
             if (!productExists) {
                 if (soLuongMua <= soLuong) {
                     cartList.add(new DoNoiThat(id, ten, gia, soLuongMua, hinhAnh));
-                } else {
-                    throw new IllegalArgumentException("Số lượng sản phẩm không đủ.");
-                }
+                } 
             }
 
-            // Lưu giỏ hàng và kích thước giỏ hàng vào session
+            // Cập nhật giỏ hàng và thông báo
             session.setAttribute("cartProduct", cartList);
             session.setAttribute("cartSize", countProduct(cartList));
 
-            // Đặt thông báo thành công
-            session.setAttribute("message", "Sản phẩm đã được thêm vào giỏ hàng thành công!");
-
-            // Chuyển hướng đến trang danh sách sản phẩm
+            // Chuyển hướng tới trang sản phẩm
             response.sendRedirect("LoadSanPham");
 
         } catch (IllegalArgumentException e) {
             // Đặt thông báo lỗi
-            request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("views/khachHang/shop.jsp").forward(request, response);
         }
     }
 
-    // Hàm tính tổng số lượng sản phẩm trong giỏ hàng
     private int countProduct(List<DoNoiThat> cartList) {
         int cnt = 0;
         for (DoNoiThat item : cartList) {
@@ -88,3 +77,4 @@ public class themDoNoiThatGHController extends HttpServlet {
         return cnt;
     }
 }
+
