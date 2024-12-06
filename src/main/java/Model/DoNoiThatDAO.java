@@ -23,7 +23,7 @@ public class DoNoiThatDAO {
 	        ResultSet rs = ps.executeQuery();
 
 	        while (rs.next()) {
-	            DoNoiThat dnt = new DoNoiThat(rs.getInt("id"),rs.getString("ten"),rs.getDouble("gia"),rs.getString("mauSac"),rs.getInt("soLuong"),rs.getString("moTa"),rs.getString("hinhAnh"),new DanhMuc(rs.getInt("maDanhMuc"),rs.getString("tenDanhMuc")));  
+	            DoNoiThat dnt = new DoNoiThat(rs.getInt("id"),rs.getString("ten"),rs.getBigDecimal("gia"),rs.getString("mauSac"),rs.getInt("soLuong"),rs.getString("moTa"),rs.getString("hinhAnh"),new DanhMuc(rs.getInt("maDanhMuc"),rs.getString("tenDanhMuc")));  
 	            list.add(dnt);
 	        }
 	    } catch (Exception ex) {
@@ -43,7 +43,7 @@ public class DoNoiThatDAO {
 	            products.add(new DoNoiThat(
 	            		resultSet.getInt("id"),
 	 	                resultSet.getString("ten"),
-	 	                resultSet.getFloat("gia"),
+	 	                resultSet.getBigDecimal("gia"),
 	 	                resultSet.getString("mauSac"),
 	 	                resultSet.getInt("soLuong"), 	               
 	 	                resultSet.getString("hinhAnh")
@@ -84,7 +84,7 @@ public class DoNoiThatDAO {
 	            // Nếu đã tồn tại, thực hiện cập nhật
 	            PreparedStatement psUpdate = conn.prepareStatement(sqlUpdate);
 	            psUpdate.setString(1, dnt.getTen());
-	            psUpdate.setDouble(2, dnt.getGia());
+	            psUpdate.setBigDecimal(2, dnt.getGia());
 	            psUpdate.setString(3, dnt.getMauSac());
 	            psUpdate.setInt(4, dnt.getSoLuong());
 	            psUpdate.setString(5, dnt.getMoTa());
@@ -96,7 +96,7 @@ public class DoNoiThatDAO {
 	            // Nếu không tồn tại, thực hiện thêm mới
 	            PreparedStatement psInsert = conn.prepareStatement(sqlInsert);
 	            psInsert.setString(1, dnt.getTen());
-	            psInsert.setDouble(2, dnt.getGia());
+	            psInsert.setBigDecimal(2, dnt.getGia());
 	            psInsert.setString(3, dnt.getMauSac());
 	            psInsert.setInt(4, dnt.getSoLuong());
 	            psInsert.setString(5, dnt.getMoTa());
@@ -126,7 +126,7 @@ public class DoNoiThatDAO {
             	DoNoiThat product = new DoNoiThat(
                     rs.getInt("id"),
                     rs.getString("ten"),
-                    rs.getFloat("gia"),
+                    rs.getBigDecimal("gia"),
                     rs.getString("mauSac"),
                     rs.getInt("soLuong"),
                     rs.getString("moTa"),
@@ -157,7 +157,7 @@ public class DoNoiThatDAO {
             	 DoNoiThat product = new DoNoiThat(
                         rs.getInt("id"),
                         rs.getString("ten"),
-                        rs.getFloat("gia"),
+                        rs.getBigDecimal("gia"),
                         rs.getString("mauSac"),
                         rs.getInt("soLuong"),
                         rs.getString("moTa"),

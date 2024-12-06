@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.taglibs.standard.tag.common.fmt.RequestEncodingSupport;
@@ -40,7 +41,7 @@ public class themDoNoiThatController extends HttpServlet {
                 id = Integer.parseInt(getID);
             }
             String ten = request.getParameter("ten");
-            Float gia = Float.parseFloat(request.getParameter("gia"));
+            BigDecimal gia = BigDecimal.valueOf(Float.parseFloat(request.getParameter("gia")));
             String mauSac = request.getParameter("mauSac");
             int soLuong = Integer.parseInt(request.getParameter("soLuong"));
             String moTa = request.getParameter("moTa");

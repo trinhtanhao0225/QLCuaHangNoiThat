@@ -34,23 +34,52 @@ public class KhachHangDAO {
 	    }
 	    return null;
 	}
-	public static void themKhachHang(KhachHang kh){
-        // 1. Thêm hoặc cập nhật thông tin khách hàng
-        String insertKhachHang = "INSERT INTO KhachHang (cccd, ten, ngaySinh, email, soDienThoai, diaChi) " +
-                "SELECT ?, ?, ?, ?, ?, ? ";
+	public static void themHoacCapNhatKhachHang(KhachHang kh) {
+	    // 1. Kiểm tra xem khách hàng có tồn tại hay không
+	    String checkExistQuery = "SELECT COUNT(*) FROM KhachHang WHERE cccd = ?";
+	    String updateQuery = "UPDATE KhachHang SET ten = ?, ngaySinh = ?, email = ?, soDienThoai = ?, diaChi = ? WHERE cccd = ?";
+	    String insertQuery = "INSERT INTO KhachHang (cccd, ten, ngaySinh, email, soDienThoai, diaChi) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try{
-        	PreparedStatement stmt = conn.prepareStatement(insertKhachHang);
-            stmt.setString(1, kh.getCccd());
-            stmt.setString(2, kh.getTen());
-            stmt.setDate(3, kh.getNgaySinh());
-            stmt.setString(4, kh.getEmail());
-            stmt.setString(5, kh.getSdt());
-            stmt.setString(6, kh.getDiaChi());
-            stmt.executeUpdate();
-        }
-        catch (Exception ex) {
+	    try {
+	        // Kiểm tra sự tồn tại của khách hàng
+	        PreparedStatement checkStmt = conn.prepareStatement(checkExistQuery);
+	        checkStmt.setString(1, kh.getCccd());
+	        ResultSet rs = checkStmt.executeQuery();
+	        rs.next();
+	        boolean exists = rs.getInt(1) > 0;
+
+	        if (exists) {
+	            // Khách hàng đã tồn tại, thực hiện cập nhật thông tin
+	            PreparedStatement updateStmt = conn.prepareStatement(updateQuery);
+	            updateStmt.setString(1, kh.getTen());
+	            updateStmt.setDate(2, kh.getNgaySinh());
+	            updateStmt.setString(3, kh.getEmail());
+	            updateStmt.setString(4, kh.getSdt());
+	            updateStmt.setString(5, kh.getDiaChi());
+	            updateStmt.setString(6, kh.getCccd());
+	            updateStmt.executeUpdate();
+	            updateStmt.close();
+	            System.out.println("Thông tin khách hàng đã được cập nhật.");
+	        } else {
+	            // Khách hàng chưa tồn tại, thêm mới
+	            PreparedStatement insertStmt = conn.prepareStatement(insertQuery);
+	            insertStmt.setString(1, kh.getCccd());
+	            insertStmt.setString(2, kh.getTen());
+	            insertStmt.setDate(3, kh.getNgaySinh());
+	            insertStmt.setString(4, kh.getEmail());
+	            insertStmt.setString(5, kh.getSdt());
+	            insertStmt.setString(6, kh.getDiaChi());
+	            insertStmt.executeUpdate();
+	            insertStmt.close();
+	            System.out.println("Khách hàng mới đã được thêm.");
+	        }
+
+	        // Đóng PreparedStatement và ResultSet
+	        checkStmt.close();
+	        rs.close();
+	    } catch (Exception ex) {
 	        ex.printStackTrace();
 	    }
 	}
+
 }

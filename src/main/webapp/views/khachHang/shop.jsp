@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -134,6 +135,7 @@
     </style>
 </head>
 <body>
+	
     <!-- Header -->
     <header class="header">
 	    <div class="logo">CHANCOS</div>
@@ -182,7 +184,7 @@
                     <img src="<c:url value='/image/${product.hinhAnh}'/>" alt="${product.ten}" style="width: 300px; height: 280px;">
                     <h3><b>${product.ten}</b></h3>
                     <div style="display:flex">
-                        <span><p>Giá : ${product.gia}đ   | </p></span>
+						<span><p>Giá : <fmt:formatNumber value="${product.gia}" type="currency" currencySymbol="đ" /> | </p></span>
                         <span><p>Màu sắc : ${product.mauSac}</p></span>
                     </div>
                     <a href="<%= request.getContextPath() %>/chiTietSanPham?id=${product.id}">
@@ -193,7 +195,7 @@
                             <input type="hidden" name="id" value="${product.id}">
                             <input type="hidden" name="ten" value="${product.ten}">
                             <input type="hidden" name="hinhAnh" value="${product.hinhAnh}">
-                            <input type="hidden" name="gia" value="${product.gia}">
+							<input type="hidden" name="gia" value="<fmt:formatNumber value='${product.gia}' type='number' pattern='#.##' />">
                             <input type="hidden" name="soLuong" value="${product.soLuong}">
                             <input type="hidden" name="soLuongMua" value="1">
                             

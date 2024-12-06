@@ -19,7 +19,7 @@ public class HoaDonDAO {
 	        ResultSet rs = ps.executeQuery();
 
 	        while (rs.next()) {
-	            HoaDon hd = new HoaDon(rs.getInt("id"),rs.getFloat("tongTien"),rs.getString("cccd"),rs.getString("ten"),rs.getDate("ngayDatHang"));  
+	            HoaDon hd = new HoaDon(rs.getInt("id"),rs.getBigDecimal("tongTien"),rs.getString("cccd"),rs.getString("ten"),rs.getDate("ngayDatHang"));  
 	            list.add(hd);
 	        }
 	    } catch (Exception ex) {
@@ -38,7 +38,7 @@ public class HoaDonDAO {
 		        stmtHoaDon.setString(1, hd.getCccd());
 		        stmtHoaDon.setString(2, hd.getTen());
 		        stmtHoaDon.setDate(3, hd.getThoiGianDatHang());
-		        stmtHoaDon.setFloat(4, hd.getTongTien());
+		        stmtHoaDon.setBigDecimal(4, hd.getTongTien());
 		        stmtHoaDon.executeUpdate();
 
 		        // Lấy idHoaDon vừa được thêm vào
@@ -53,7 +53,7 @@ public class HoaDonDAO {
 		                        stmtChiTietHoaDon.setInt(1, idHoaDon);
 		                        stmtChiTietHoaDon.setInt(2, product.getId());
 		                        stmtChiTietHoaDon.setInt(3, product.getSoLuong());
-		                        stmtChiTietHoaDon.setDouble(4, product.getTotalPrice());
+		                        stmtChiTietHoaDon.setBigDecimal(4, product.getTotalPrice());
 		                        stmtChiTietHoaDon.addBatch();
 		                    }
 		                    stmtChiTietHoaDon.executeBatch();

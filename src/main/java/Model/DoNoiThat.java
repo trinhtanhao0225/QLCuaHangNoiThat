@@ -1,9 +1,11 @@
 package Model;
 
+import java.math.BigDecimal;
+
 public class DoNoiThat {
 	private int id;
 	private String ten;
-	private double gia;
+	private BigDecimal gia;
 	private String mauSac;
 	private int soLuong;
 	private String moTa;
@@ -21,10 +23,10 @@ public class DoNoiThat {
 	public void setTen(String ten) {
 		this.ten = ten;
 	}
-	public double getGia() {
+	public BigDecimal getGia() {
 		return gia;
 	}
-	public void setGia(float gia) {
+	public void setGia(BigDecimal gia) {
 		this.gia = gia;
 	}
 	public String getMauSac() {
@@ -68,7 +70,7 @@ public class DoNoiThat {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public DoNoiThat(int id, String ten, double gia, String mauSac, int soLuong, String moTa, String hinhAnh,
+	public DoNoiThat(int id, String ten, BigDecimal gia, String mauSac, int soLuong, String moTa, String hinhAnh,
 			DanhMuc danhMuc) {
 		super();
 		this.id = id;
@@ -81,7 +83,7 @@ public class DoNoiThat {
 		this.danhMuc = danhMuc;
 	}
 
-	public DoNoiThat(int id, String ten, float gia, String mauSac,int soLuong, String hinhAnh) {
+	public DoNoiThat(int id, String ten, BigDecimal gia, String mauSac,int soLuong, String hinhAnh) {
 		super();
 		this.id = id;
 		this.ten = ten;
@@ -90,7 +92,7 @@ public class DoNoiThat {
 		this.soLuong = soLuong;
 		this.hinhAnh = hinhAnh;
 	}
-	public DoNoiThat(int id, String ten, float gia, int soLuong, String hinhAnh) {
+	public DoNoiThat(int id, String ten, BigDecimal gia, int soLuong, String hinhAnh) {
 		super();
 		this.id = id;
 		this.ten = ten;
@@ -98,8 +100,7 @@ public class DoNoiThat {
 		this.soLuong = soLuong;
 		this.hinhAnh = hinhAnh;
 	}
-	 public double getTotalPrice() {
-	        return this.gia * this.soLuong;
-	    }
-	
+	public BigDecimal getTotalPrice() {
+	    return gia.multiply(BigDecimal.valueOf(soLuong));  // Trả về BigDecimal
+	}
 }

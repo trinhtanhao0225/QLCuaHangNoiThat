@@ -8,10 +8,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+
+import org.apache.tomcat.jakartaee.Converter;
+
 import Model.DoNoiThat;
 import Model.HoaDon;
 import Model.HoaDonDAO;
@@ -61,12 +65,13 @@ public class themDonHangController extends HttpServlet {
         }
 
         KhachHang khachHang = new KhachHang(cccd, ten, ngaySinh, email, soDienThoai, diaChi);
-        KhachHangDAO.themKhachHang(khachHang);
+        KhachHangDAO.themHoacCapNhatKhachHang(khachHang);
         
-        double tongTien = cart.stream().mapToDouble(DoNoiThat::getTotalPrice).sum();
-        
+        BigDecimal tongTien = cart.stream()
+        	    .map(DoNoiThat::getTotalPrice)  // Chuyển mỗi đối tượng thành BigDecimal
+        	    .reduce(BigDecimal.ZERO, BigDecimal::add);      
         // Tạo hóa đơn và lưu vào cơ sở dữ liệu
-        HoaDon hDon = new HoaDon((float) tongTien, cccd, ten, thoiGian);
+        HoaDon hDon = new HoaDon( tongTien, cccd, ten, thoiGian);
         HoaDonDAO.themHoaDon(hDon, cart);
 
         // Xóa giỏ hàng trong session sau khi thanh toán

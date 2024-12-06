@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" 
 	uri="jakarta.tags.core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -99,7 +101,7 @@
 			                + '&idDanhMuc=' + encodeURIComponent('${dnt.danhMuc.id}')">
 			            <td>${dnt.id}</td>
 			            <td>${dnt.ten}</td>
-			            <td>${dnt.gia}</td>
+						<td><fmt:formatNumber value="${dnt.gia}" type="number" pattern="#,###" /></td>
 			            <td>${dnt.mauSac}</td>
 			            <td>${dnt.soLuong}</td>
 			            <td>${dnt.danhMuc.ten}</td>

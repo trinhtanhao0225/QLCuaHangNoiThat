@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class themDoNoiThatGHController extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         String ten = request.getParameter("ten");
         String hinhAnh = request.getParameter("hinhAnh");
-        float gia = Float.parseFloat(request.getParameter("gia"));
+        BigDecimal gia = BigDecimal.valueOf(Float.parseFloat(request.getParameter("gia")));
         int soLuong = Integer.parseInt(request.getParameter("soLuong"));
         int soLuongMua = Integer.parseInt(request.getParameter("soLuongMua"));
 

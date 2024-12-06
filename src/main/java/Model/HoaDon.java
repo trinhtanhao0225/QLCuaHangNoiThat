@@ -1,11 +1,12 @@
 package Model;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.DateTimeException;
 
 public class HoaDon {
 	private int id;
-	private float tongTien;
+	private BigDecimal tongTien;
 	private String cccd;
 	private String ten;
 	private Date thoiGianDatHang;
@@ -15,10 +16,10 @@ public class HoaDon {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public float getTongTien() {
+	public BigDecimal getTongTien() {
 		return tongTien;
 	}
-	public void setTongTien(float tongTien) {
+	public void setTongTien(BigDecimal tongTien) {
 		this.tongTien = tongTien;
 	}
 	public String getCccd() {
@@ -39,7 +40,7 @@ public class HoaDon {
 	public void setThoiGianDatHang(Date thoiGianDatHang) {
 		this.thoiGianDatHang = thoiGianDatHang;
 	}
-	public HoaDon(int id, float tongTien, String cccd, String ten, Date thoiGianDatHang) {
+	public HoaDon(int id, BigDecimal tongTien, String cccd, String ten, Date thoiGianDatHang) {
 		super();
 		this.id = id;
 		this.tongTien = tongTien;
@@ -51,7 +52,7 @@ public class HoaDon {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public HoaDon(float tongTien, String cccd, String ten, Date thoiGianDatHang) {
+	public HoaDon(BigDecimal tongTien, String cccd, String ten, Date thoiGianDatHang) {
 		super();
 		this.tongTien = tongTien;
 		this.cccd = cccd;

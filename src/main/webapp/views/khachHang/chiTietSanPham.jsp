@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -101,7 +103,7 @@
         <img src="/QLCuaHangNoiThat/image/${currentProduct.hinhAnh}" alt="${currentProduct.ten}" >
         <div class="product-info">
             <h2>${currentProduct.ten}</h2>
-            <p><b style="font-size: 30px">Giá: ${currentProduct.gia}đ</b></p>
+			<p><b style="font-size: 30px">Giá: <fmt:formatNumber value="${currentProduct.gia}" type="number" pattern="#,###" /> đ</b></p>
             <p>Màu sắc: ${currentProduct.mauSac}</p>
             <div class="d-flex align-items-center">
 			    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="decreaseQuantity()" style="margin-right: 10px;">
@@ -135,7 +137,7 @@
 	                <div style="display: inline-block; margin: 30px;">
 	                    <li>
 	                        <img src="/QLCuaHangNoiThat/image/${product.hinhAnh}" alt="${product.ten}" style="width: 330px; height: 400px;">
-	                        <p>${product.ten} - ${product.gia} VND</p>
+							<p>${product.ten} - <fmt:formatNumber value="${product.gia}" type="number" pattern="#,###" /> VND</p>
 	                        <a href="chiTietSanPham?id=${product.id}">
 	                            <button type="button" class="btn btn-dark">Xem Chi Tiết</button>
 	                        </a>
